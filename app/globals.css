@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground: #f1f5f9;
+  --foreground-muted: #cbd5e1;
+  --background: #0f172a;
+  --background-alt: rgba(15, 23, 42, 0.6);
+  --accent: #7dd3fc;
+  --accent-hover: #bae6fd;
+  --border: rgba(248, 250, 252, 0.15);
+  /* Sky gradient for cards/sections */
+  --sky-from: #7dd3fc;
+  --sky-via: #bae6fd;
+  --sky-to: #e0f2fe;
+  /* Typography */
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  user-select: none;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  /* Full-page background image with overlay for readability */
+  background-color: #0f172a;
+  background-image:
+    linear-gradient(to bottom,
+      rgba(15, 23, 42, 0.4) 0%,
+      rgba(15, 23, 42, 0.5) 50%,
+      rgba(15, 23, 42, 0.75) 100%),
+    url("/bg.png");
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* Intro card sizing */
+@media (min-width: 1024px) and (max-width: 1279.98px) {
+  .intro-card {
+    max-width: 960px;
+    min-width: 960px;
+    max-height: 620px;
+    min-height: 620px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .intro-card {
+    max-width: 1161px;
+    min-width: 1161px;
+    max-height: 655px;
+    min-height: 655px;
+  }
+}
+
+.intro-card .intro-card-label {
+  font-size: 15px;
+}
+
+/* Curved edge between content and photo using SVG */
+.intro-card-photo {
+  position: relative;
+  /* overflow: hidden; */
+}
+
+.intro-card-curve {
+  position: absolute;
+  top: 0;
+  left: -5px;
+  width: clamp(50px, 60vw, 500px);
+  height: 100%;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.themed-svg-shape-background {
+  fill: none;
+  stroke: #000;
+  stroke-width: 2;
+}
+
+.themed-svg-shape-fill {
+  fill: none;
+}
