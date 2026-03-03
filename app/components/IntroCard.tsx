@@ -73,7 +73,7 @@ export default function IntroCard() {
           {/* 4 sections around central icon */}
           <div className="flex flex-col lg:flex-row lg:items-stretch lg:justify-between text-black">
             {/* Left column: Full-Stack / DevOps */}
-            <div className="flex flex-col justify-between gap-6 lg:gap-10 max-w-xs w-full">
+            <div className="flex flex-col justify-between gap-6 text-right lg:gap-10 max-w-xs w-full">
               <SkillBlock title={SKILLS.fullStack.title} items={SKILLS.fullStack.items} />
               <SkillBlock title={SKILLS.devops.title} items={SKILLS.devops.items} />
             </div>

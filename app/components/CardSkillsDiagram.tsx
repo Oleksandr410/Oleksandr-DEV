@@ -3,7 +3,6 @@ export default function CardSkillsDiagram() {
     <svg
       viewBox="220 0 560 540"
       width="100%"
-      height="auto"
       preserveAspectRatio="xMidYMid meet"
       style={{ maxWidth: "520px", display: "block", overflow: "visible" }}
       xmlns="http://www.w3.org/2000/svg"
