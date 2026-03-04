@@ -216,7 +216,7 @@ export default function WhatIDoCard() {
         {/* Right Side: Sticky Stage */}
         <div className="w-7/12 relative">
           {/* This container sticks to the screen while the user scrolls down the left side */}
-          <div className="sticky top-[20vh] h-[60vh] flex flex-col items-center justify-center p-12 overflow-hidden bg-slate-50/30 border border-slate-100 rounded-3xl m-8 shadow-inner">
+          <div className="sticky top-[20vh] h-[60vh] flex flex-col items-center justify-center p-12 overflow-visible m-8">
             {/* Subtle background glow */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[35rem] h-[35rem] bg-sky-100/40 rounded-full blur-3xl pointer-events-none transition-all duration-700 ease-in-out" />
 
@@ -248,7 +248,7 @@ export default function WhatIDoCard() {
               viewport={{ once: true, margin: "-50px" }}
               className="flex flex-col gap-6"
             >
-              <div className="h-72 bg-slate-50/50 border border-slate-100 rounded-3xl relative shadow-inner overflow-hidden flex items-center justify-center">
+              <div className="h-72 relative overflow-visible flex items-center justify-center">
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-sky-100/40 rounded-full blur-2xl pointer-events-none" />
                 <Visual />
               </div>
