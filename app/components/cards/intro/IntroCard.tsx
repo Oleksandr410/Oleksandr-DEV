@@ -168,7 +168,7 @@ export default function IntroCard() {
       }
       right={
         <motion.div
-          className="intro-card-photo relative w-full h-64 sm:h-80 lg:w-80 lg:min-w-[20rem] lg:h-auto lg:min-h-[480px] bg-slate-200 shrink-0"
+          className="intro-card-photo relative hidden lg:block w-full h-64 sm:h-80 lg:w-80 lg:min-w-[20rem] lg:h-auto lg:min-h-[480px] bg-slate-200 shrink-0"
           variants={photoVariants}
         >
           <Image

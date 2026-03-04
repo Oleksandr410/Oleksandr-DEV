@@ -57,7 +57,19 @@ export default function CardSkillsDiagram() {
         strokeLinejoin="round"
       />
 
+      {/* Avatar on mobile/tablet; external image on desktop */}
       <image
+        className="lg:hidden"
+        x="255.503"
+        y="23.5004"
+        width="491"
+        height="491"
+        preserveAspectRatio="xMidYMid slice"
+        clipPath="url(#clip-fWPXAJ73)"
+        xlinkHref="/me.png"
+      />
+      <image
+        className="hidden lg:block"
         x="255.503"
         y="23.5004"
         width="491"
