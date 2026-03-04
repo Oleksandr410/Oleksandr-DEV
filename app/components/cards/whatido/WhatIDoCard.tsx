@@ -34,7 +34,7 @@ const itemVariants = {
 
 const scenarios = [
   {
-    title: "Building From Scratch & MVP",
+    title: "New Builds & MVPs",
     desc: "Planning the overall architecture and building your product step by step from an idea to a stable first version.",
     bullets: [
       "Rapid MVP (Minimum Viable Product) development",
