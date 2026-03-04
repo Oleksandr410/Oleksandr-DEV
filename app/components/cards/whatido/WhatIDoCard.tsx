@@ -46,18 +46,6 @@ const scenarios = [
     visual: BuildFromScratchVisual,
   },
   {
-    title: "Stabilizing Projects",
-    desc: "Rescuing difficult-to-maintain codebases by identifying bottlenecks and refactoring for long-term stability.",
-    bullets: [
-      "Comprehensive system review & auditing",
-      "Technical debt identification",
-      "Database query optimization",
-      "Frontend logic simplification",
-      "Automated code testing & quality checks",
-    ],
-    visual: FixingProjectsVisual,
-  },
-  {
     title: "CMS & Platforms",
     desc: "Building flexible structures that empower teams to manage website content easily without constant developer help.",
     bullets: [
@@ -68,6 +56,18 @@ const scenarios = [
       "AI-assisted content generation workflows",
     ],
     visual: CMSVisual,
+  },
+  {
+    title: "Stabilizing Projects",
+    desc: "Rescuing difficult-to-maintain codebases by identifying bottlenecks and refactoring for long-term stability.",
+    bullets: [
+      "Comprehensive system review & auditing",
+      "Technical debt identification",
+      "Database query optimization",
+      "Frontend logic simplification",
+      "Automated code testing & quality checks",
+    ],
+    visual: FixingProjectsVisual,
   },
   {
     title: "Scaling & Performance",
@@ -124,45 +124,40 @@ function ScrollMenuItem({
   return (
     <div
       ref={ref}
-      className={`transition-all duration-700 ${
-        isActive
+      className={`transition-all duration-700 ${isActive
           ? "opacity-100 translate-x-0"
           : "opacity-30 -translate-x-4"
-      }`}
+        }`}
     >
       <div className="flex items-center gap-4 mb-4">
         <div className={`w-1 transition-all duration-700 rounded-full ${isActive ? 'h-8 bg-sky-500' : 'h-0 bg-transparent'}`} />
         <h3
-          className={`font-bold transition-colors duration-700 ${
-            isActive ? "text-sky-600 text-3xl" : "text-slate-500 text-2xl"
-          }`}
+          className={`font-bold transition-colors duration-700 ${isActive ? "text-sky-600 text-3xl" : "text-slate-500 text-2xl"
+            }`}
         >
           {scenario.title}
         </h3>
       </div>
       <div className="pl-5">
         <p
-          className={`transition-colors duration-700 text-lg leading-relaxed mb-6 ${
-            isActive ? "text-slate-700" : "text-slate-500"
-          }`}
+          className={`transition-colors duration-700 text-lg leading-relaxed mb-6 ${isActive ? "text-slate-700" : "text-slate-500"
+            }`}
         >
           {scenario.desc}
         </p>
         <ul className="space-y-3">
           {scenario.bullets.map((bullet: string, i: number) => (
-            <li 
-              key={i} 
-              className={`flex items-start gap-3 transition-colors duration-700 text-base ${
-                isActive ? "text-slate-600" : "text-slate-400"
-              }`}
+            <li
+              key={i}
+              className={`flex items-start gap-3 transition-colors duration-700 text-base ${isActive ? "text-slate-600" : "text-slate-400"
+                }`}
             >
-              <svg 
-                className={`w-5 h-5 shrink-0 mt-0.5 transition-colors duration-700 ${
-                  isActive ? "text-sky-500" : "text-slate-300"
-                }`} 
-                fill="none" 
-                viewBox="0 0 24 24" 
-                stroke="currentColor" 
+              <svg
+                className={`w-5 h-5 shrink-0 mt-0.5 transition-colors duration-700 ${isActive ? "text-sky-500" : "text-slate-300"
+                  }`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
                 strokeWidth={2}
               >
                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
@@ -204,7 +199,7 @@ export default function WhatIDoCard() {
 
       {/* Main Interactive Area - Desktop */}
       <div className="hidden lg:flex relative border-t border-slate-100 bg-white">
-        
+
         {/* Left Side: Scrollable Text List (Natural Page Scroll) */}
         <div className="w-5/12 border-r border-slate-100 px-10 py-[20vh] flex flex-col gap-[35vh]">
           {scenarios.map((scenario, index) => (
@@ -224,7 +219,7 @@ export default function WhatIDoCard() {
           <div className="sticky top-[20vh] h-[60vh] flex flex-col items-center justify-center p-12 overflow-hidden bg-slate-50/30 border border-slate-100 rounded-3xl m-8 shadow-inner">
             {/* Subtle background glow */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[35rem] h-[35rem] bg-sky-100/40 rounded-full blur-3xl pointer-events-none transition-all duration-700 ease-in-out" />
-            
+
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeTab}
@@ -246,7 +241,7 @@ export default function WhatIDoCard() {
         {scenarios.map((scenario, index) => {
           const Visual = scenario.visual;
           return (
-            <motion.div 
+            <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
