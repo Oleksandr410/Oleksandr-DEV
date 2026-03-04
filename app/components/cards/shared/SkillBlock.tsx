@@ -1,4 +1,4 @@
-"use client";
+ "use client";
 
 import { motion } from "framer-motion";
 
@@ -43,7 +43,11 @@ export default function SkillBlock({ title, items, direct }: SkillBlockProps) {
       >
         {items.map((item) => (
           <motion.li
-            className={`${direct === "right" ? "border-l-2 border-[#388ae775] pl-2" : "border-l-2 pl-2 md:border-r-2 md:border-l-0 md:pl-0 border-[#388ae775] md:pr-2"}`}
+            className={`${
+              direct === "right"
+                ? "border-l-2 border-[#388ae775] pl-2"
+                : "border-l-2 pl-2 md:border-r-2 md:border-l-0 md:pl-0 border-[#388ae775] md:pr-2"
+            }`}
             key={item}
             variants={itemVariants}
             custom={direct}
