@@ -27,7 +27,7 @@ export default function CardSkillsDiagram() {
             cy="269.001"
             r="270"
             fill="none"
-            stroke="#b2cfe5"
+            stroke="#388ae775"
             strokeWidth="2"
             strokeDasharray="6 8"
             strokeLinecap="round"
@@ -44,7 +44,7 @@ export default function CardSkillsDiagram() {
        C256.006 404.31 365.697 514.001 501.006 514.001
        C636.316 514.001 746.006 404.31 746.006 269.001Z"
         fill="none"
-        stroke="#b2cfe5"
+        stroke="#388ae775"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -61,8 +61,8 @@ export default function CardSkillsDiagram() {
       />
 
       <g className="hidden md:block">
-        <path d="M349.506 74.5V42H228.006C227.178 42 226.506 42.6716 226.506 43.5C226.506 44.3284 227.178 45 228.006 45H346.506L346.5 77.4993Z" fill="#b2cfe5" />
-        {/* <path d="M228.003 29H220.003V61H228.003Z" fill="#b2cfe5" /> */}
+        <path d="M349.506 74.5V42H228.006C227.178 42 226.506 42.6716 226.506 43.5C226.506 44.3284 227.178 45 228.006 45H346.506L346.5 77.4993Z" fill="#388ae775" />
+        {/* <path d="M228.003 29H220.003V61H228.003Z" fill="#388ae775" /> */}
       </g>
 
       <g className="hidden md:block">
@@ -78,19 +78,19 @@ export default function CardSkillsDiagram() {
     V42
     Z
           "
-          fill="#b2cfe5"
+          fill="#388ae775"
         />
-        {/* <path d="M779 29H771V61H779Z" fill="#b2cfe5" /> */}
+        {/* <path d="M779 29H771V61H779Z" fill="#388ae775" /> */}
       </g>
 
       <g className="hidden md:block">
-        <path d="M349 462.5V495H227.5C226.672 495 226 494.328 226 493.5C226 492.672 226.672 492 227.5 492H346V460.339Z" fill="#b2cfe5" />
-        {/* <path d="M228.003 477H220.003V509H228.003Z" fill="#b2cfe5" /> */}
+        <path d="M349 462.5V495H227.5C226.672 495 226 494.328 226 493.5C226 492.672 226.672 492 227.5 492H346V460.339Z" fill="#388ae775" />
+        {/* <path d="M228.003 477H220.003V509H228.003Z" fill="#388ae775" /> */}
       </g>
 
       <g className="hidden md:block">
-        <path d="M649.503 462.5V495H771.003C771.832 495 772.503 494.328 772.503 493.5C772.503 492.672 771.832 492 771.003 492H652.503V460.339Z" fill="#b2cfe5" />
-        {/* <path d="M779 477H771V509H779Z" fill="#b2cfe5" /> */}
+        <path d="M649.503 462.5V495H771.003C771.832 495 772.503 494.328 772.503 493.5C772.503 492.672 771.832 492 771.003 492H652.503V460.339Z" fill="#388ae775" />
+        {/* <path d="M779 477H771V509H779Z" fill="#388ae775" /> */}
       </g>
     </svg>
   );
