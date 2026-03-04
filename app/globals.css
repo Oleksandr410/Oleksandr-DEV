@@ -98,3 +98,38 @@ body {
 .themed-svg-shape-fill {
   fill: none;
 }
+
+/* Skills diagram: infinite 360° rotation */
+@keyframes diagram-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Rotate around circle center (501.006, 269.001) in viewBox coordinates */
+.diagram-circle-rotate {
+  transform-origin: 501.006px 269.001px;
+  animation: diagram-rotate 20s linear infinite;
+}
+
+/* Circle size pulse: grow and shrink from center */
+@keyframes diagram-scale {
+
+  0%,
+  100% {
+    transform: scale(0.93);
+  }
+
+  50% {
+    transform: scale(1);
+  }
+}
+
+.diagram-circle-pulse {
+  transform-origin: 501.006px 269.001px;
+  animation: diagram-scale 2.5s ease-in-out infinite;
+}

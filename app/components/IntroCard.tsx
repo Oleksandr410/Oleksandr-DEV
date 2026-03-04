@@ -4,6 +4,14 @@ import SkillBlock from "../components/SkillBlock";
 import CardSkillsDiagram from "../components/CardSkillsDiagram";
 
 const SKILLS = {
+  experience: {
+    title: "Experience",
+    items: [
+      "10+ years of experience",
+      "20+ production apps shipped",
+      "Fintech, e‑commerce, SaaS, healthcare",
+    ],
+  },
   fullStack: {
     title: "Full-Stack",
     items: [
@@ -29,21 +37,14 @@ const SKILLS = {
       "CI/CD pipelines",
       "Monitoring & alerting",
     ],
-  },
-  experience: {
-    title: "Experience",
-    items: [
-      "20+ production apps shipped",
-      "Fintech, e‑commerce, SaaS, healthcare",
-    ],
-  },
+  }
 } as const;
 
 export default function IntroCard() {
   return (
-    <article className="intro-card w-full max-w-6xl rounded-3xl border-8 border-white bg-white shadow-2xl overflow-hidden flex flex-col sm:flex-row">
+    <article className="intro-card w-full max-w-6xl rounded-3xl border-8 border-white bg-white shadow-2xl overflow-hidden flex flex-col lg:flex-row">
       {/* Left: content */}
-      <div className="flex-1 py-12 pl-12 z-50">
+      <div className="flex-1 py-12 px-4 md:px-6 lg:px-0 lg:pl-12 z-50">
         <div className="flex flex-col justify-around h-full">
           <div>
             {/* Who I Am */}
@@ -71,40 +72,40 @@ export default function IntroCard() {
           </div>
 
           {/* 4 sections around central icon */}
-          <div className="flex flex-col lg:flex-row lg:items-stretch lg:justify-between text-black">
+          <div className="flex flex-col gap-6 md:flex-row md:gap-2 md:items-stretch md:justify-between text-black">
             {/* Left column: Full-Stack / DevOps */}
-            <div className="flex flex-col justify-between gap-6 text-right lg:gap-10 max-w-xs w-full">
-              <SkillBlock title={SKILLS.fullStack.title} items={SKILLS.fullStack.items} />
-              <SkillBlock title={SKILLS.devops.title} items={SKILLS.devops.items} />
+            <div className="flex flex-col justify-between gap-6 md:text-right lg:gap-10 max-w-xs w-full">
+              <SkillBlock direct="left" title={SKILLS.fullStack.title} items={SKILLS.fullStack.items} />
+              <SkillBlock direct="left" title={SKILLS.devops.title} items={SKILLS.devops.items} />
             </div>
 
             {/* Center: circular skills diagram */}
-            <div className="flex items-center justify-center px-0 lg:px-4 w-full">
+            <div className="flex items-center justify-center px-0 w-full">
               <CardSkillsDiagram />
             </div>
 
             {/* Right column: CMS / Experience */}
             <div className="flex flex-col justify-between gap-6 lg:gap-10 max-w-xs w-full">
-              <SkillBlock title={SKILLS.cms.title} items={SKILLS.cms.items} />
-              <SkillBlock title={SKILLS.experience.title} items={SKILLS.experience.items} />
+              <SkillBlock direct="right" title={SKILLS.cms.title} items={SKILLS.cms.items} />
+              <SkillBlock direct="right" title={SKILLS.experience.title} items={SKILLS.experience.items} />
             </div>
           </div>
         </div>
       </div>
 
-      {/* Right: photo */}
-      <div className="intro-card-photo relative w-full sm:w-80 sm:min-w-[20rem] lg:w-66 lg:min-w-[20rem] h-64 sm:h-auto sm:min-h-[480px] bg-slate-200">
+      {/* Right: photo (below content on tablet, side-by-side on desktop) */}
+      <div className="intro-card-photo relative w-full h-64 sm:h-80 lg:w-80 lg:min-w-[20rem] lg:h-auto lg:min-h-[480px] bg-slate-200 shrink-0">
         <Image
           src="/me.png"
           alt="Randy"
           fill
           className="object-cover object-top"
-          sizes="(max-width: 640px) 100vw, 24rem"
+          sizes="(max-width: 1023px) 100vw, 24rem"
           priority
           draggable={false}
         />
         <svg
-          className="intro-card-curve"
+          className="intro-card-curve hidden lg:block"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 1 1"
           preserveAspectRatio="none"
