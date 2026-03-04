@@ -1,7 +1,53 @@
+"use client";
+
 import Image from "next/image";
-import CodeStackIcon from "../components/CodeStackIcon";
+import { motion } from "framer-motion";
 import SkillBlock from "../components/SkillBlock";
 import CardSkillsDiagram from "../components/CardSkillsDiagram";
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.15,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 16 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, scale: 0.96, y: 24 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.25, 0.46, 0.45, 0.94],
+      staggerChildren: 0.06,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const photoVariants = {
+  hidden: { opacity: 0, x: 20 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.6, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] },
+  },
+};
 
 const SKILLS = {
   experience: {
@@ -42,13 +88,18 @@ const SKILLS = {
 
 export default function IntroCard() {
   return (
-    <article className="intro-card w-full max-w-6xl rounded-3xl border-8 border-white bg-white shadow-2xl overflow-hidden flex flex-col lg:flex-row">
+    <motion.article
+      className="intro-card w-full max-w-6xl rounded-3xl border-8 border-white bg-white shadow-2xl overflow-hidden flex flex-col lg:flex-row"
+      variants={cardVariants}
+      initial="hidden"
+      animate="visible"
+    >
       {/* Left: content */}
-      <div className="flex-1 py-12 px-4 md:px-6 lg:px-0 lg:pl-12 z-50">
+      <motion.div className="flex-1 py-12 px-4 md:px-6 lg:px-0 lg:pl-12 z-50" variants={containerVariants}>
         <div className="flex flex-col justify-around h-full">
           <div>
             {/* Who I Am */}
-            <div className="flex items-center mb-2.5 sm:mb-3">
+            <motion.div className="flex items-center mb-2.5 sm:mb-3" variants={itemVariants}>
               <span className="flex h-10 w-10 items-center p-[10px] mr-2 justify-center rounded-full bg-sky-100" aria-hidden>
                 <Image
                   src="/logo.png"
@@ -61,40 +112,40 @@ export default function IntroCard() {
               <span className="intro-card-label text-xs sm:text-sm font-medium text-sky-600">
                 Randy - r@andi
               </span>
-            </div>
+            </motion.div>
 
-            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-800 mb-2.5 sm:mb-3">
+            <motion.h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-800 mb-2.5 sm:mb-3" variants={itemVariants}>
               Senior Full Stack & CMS Developer
-            </h1>
-            <p className="text-slate-600 text-xs sm:text-sm md:text-base mb-5 max-w-2xl">
+            </motion.h1>
+            <motion.p className="text-slate-600 text-xs sm:text-sm md:text-base mb-5 max-w-2xl" variants={itemVariants}>
               Full-stack and CMS developer with 10+ years of experience building and maintaining scalable web applications from architecture to deployment.
-            </p>
+            </motion.p>
           </div>
 
           {/* 4 sections around central icon */}
-          <div className="flex flex-col gap-6 md:flex-row md:gap-2 md:items-stretch md:justify-between text-black">
+          <motion.div className="flex flex-col gap-6 md:flex-row md:gap-2 md:items-stretch md:justify-between text-black" variants={containerVariants}>
             {/* Left column: Full-Stack / DevOps */}
-            <div className="flex flex-col justify-between gap-6 md:text-right lg:gap-10 max-w-xs w-full">
+            <motion.div className="flex flex-col justify-between gap-6 md:text-right lg:gap-10 max-w-xs w-full" variants={itemVariants}>
               <SkillBlock direct="left" title={SKILLS.fullStack.title} items={SKILLS.fullStack.items} />
               <SkillBlock direct="left" title={SKILLS.devops.title} items={SKILLS.devops.items} />
-            </div>
+            </motion.div>
 
             {/* Center: circular skills diagram */}
-            <div className="flex items-center justify-center px-0 w-full">
+            <motion.div className="flex items-center justify-center px-0 w-full" variants={itemVariants}>
               <CardSkillsDiagram />
-            </div>
+            </motion.div>
 
             {/* Right column: CMS / Experience */}
-            <div className="flex flex-col justify-between gap-6 lg:gap-10 max-w-xs w-full">
+            <motion.div className="flex flex-col justify-between gap-6 lg:gap-10 max-w-xs w-full" variants={itemVariants}>
               <SkillBlock direct="right" title={SKILLS.cms.title} items={SKILLS.cms.items} />
               <SkillBlock direct="right" title={SKILLS.experience.title} items={SKILLS.experience.items} />
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Right: photo (below content on tablet, side-by-side on desktop) */}
-      <div className="intro-card-photo relative w-full h-64 sm:h-80 lg:w-80 lg:min-w-[20rem] lg:h-auto lg:min-h-[480px] bg-slate-200 shrink-0">
+      <motion.div className="intro-card-photo relative w-full h-64 sm:h-80 lg:w-80 lg:min-w-[20rem] lg:h-auto lg:min-h-[480px] bg-slate-200 shrink-0" variants={photoVariants}>
         <Image
           src="/me.png"
           alt="Randy"
@@ -119,8 +170,8 @@ export default function IntroCard() {
           </defs>
           <rect width="1" height="1" fill="white" mask="url(#intro-card-mask)" />
         </svg>
-      </div>
-    </article>
+      </motion.div>
+    </motion.article>
   );
 }
 

@@ -1,6 +1,13 @@
+"use client";
+
+import { motion } from "framer-motion";
+
 export default function CardSkillsDiagram() {
   return (
-    <svg
+    <motion.svg
+      initial={{ opacity: 0, scale: 0.92 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.7, delay: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
       viewBox="220 0 560 540"
       width="100%"
       preserveAspectRatio="xMidYMid meet"
@@ -92,7 +99,7 @@ export default function CardSkillsDiagram() {
         <path d="M649.503 462.5V495H771.003C771.832 495 772.503 494.328 772.503 493.5C772.503 492.672 771.832 492 771.003 492H652.503V460.339Z" fill="#388ae775" />
         {/* <path d="M779 477H771V509H779Z" fill="#388ae775" /> */}
       </g>
-    </svg>
+    </motion.svg>
   );
 }
 
