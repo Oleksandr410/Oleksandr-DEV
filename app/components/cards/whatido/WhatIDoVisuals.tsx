@@ -676,140 +676,113 @@ export const CMSVisual = () => {
 
 export const ScalingVisual = () => {
   return (
-    <div className="relative w-full h-full flex flex-col items-center justify-center p-4">
-      {/* Background Load Balancer concept */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
-        <motion.div
-          className="absolute w-full h-full bg-[radial-gradient(ellipse_at_center,rgba(56,189,248,0.15)_0%,transparent_70%)]"
-          animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        />
+    <div className="relative w-full h-full flex flex-col items-center justify-center p-4 overflow-hidden">
+      {/* Background glowing orb that changes color with the score */}
+      <motion.div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full blur-3xl opacity-30 pointer-events-none z-0"
+        animate={{ backgroundColor: ["#fca5a5", "#fcd34d", "#6ee7b7", "#6ee7b7"] }}
+        transition={{ duration: 2.5, ease: "easeOut" }}
+      />
+
+      {/* Fast Horizontal Streaks representing speed/caching */}
+      <div className="absolute inset-0 z-0 pointer-events-none opacity-40">
+        {[...Array(6)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute h-px bg-gradient-to-r from-transparent via-sky-400 to-transparent w-full"
+            style={{ top: `${15 + i * 15}%`, left: "-100%" }}
+            animate={{ left: "100%" }}
+            transition={{
+              duration: 1 + Math.random(),
+              repeat: Infinity,
+              ease: "linear",
+              delay: Math.random() * 2
+            }}
+          />
+        ))}
       </div>
 
-      <div className="relative z-10 w-full flex flex-col items-center gap-10 mt-6">
-
-        {/* Main Bottleneck Server (Capsule style) */}
-        <div className="relative">
-          {/* Pressure Gauge Arc */}
-          <div className="absolute -top-[1.125rem] left-1/2 -translate-x-1/2 w-14 h-7 overflow-hidden flex items-end justify-center z-10">
-            <svg viewBox="0 0 100 50" className="w-full h-full drop-shadow-sm">
-              {/* Background track */}
-              <path d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="#f1f5f9" strokeWidth="8" strokeLinecap="round" />
-
-              {/* Animated Gauge filling up then dropping as scaling kicks in */}
-              <motion.path
-                d="M 10 50 A 40 40 0 0 1 90 50"
-                fill="none"
-                stroke="url(#speedGradient)"
-                strokeWidth="8"
-                strokeLinecap="round"
-                initial={{ strokeDasharray: "125", strokeDashoffset: 125 }}
-                animate={{ strokeDashoffset: [125, 20, 20, 100, 80, 100] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+      <div className="relative z-10 w-full max-w-[16rem] flex flex-col items-center gap-6">
+         {/* The Metric / Gauge */}
+         <motion.div
+           className="w-32 h-32 bg-white rounded-full shadow-xl border border-slate-50 flex items-center justify-center relative z-20"
+           initial={{ scale: 0.8, opacity: 0, y: 20 }}
+           animate={{ scale: 1, opacity: 1, y: 0 }}
+           transition={{ duration: 0.6, type: "spring", bounce: 0.5 }}
+         >
+            {/* SVG Progress Ring */}
+            <svg className="absolute inset-0 w-full h-full -rotate-90 overflow-visible" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="44" fill="none" stroke="#f1f5f9" strokeWidth="8" />
+              <motion.circle
+                 cx="50"
+                 cy="50"
+                 r="44"
+                 fill="none"
+                 stroke="url(#perfGrad)"
+                 strokeWidth="8"
+                 strokeLinecap="round"
+                 strokeDasharray="276" // 2 * PI * 44 = ~276
+                 initial={{ strokeDashoffset: 276 }}
+                 animate={{ strokeDashoffset: [276, 150, 15] }} // Animates to 99%
+                 transition={{ duration: 2.5, ease: "easeOut" }}
               />
               <defs>
-                <linearGradient id="speedGradient">
-                  <stop offset="0%" stopColor="#4ade80" /> {/* Emerald 400 */}
-                  <stop offset="60%" stopColor="#22c55e" /> {/* Emerald 500 */}
-                  <stop offset="100%" stopColor="#ef4444" /> {/* Red 500 at the very tip for pressure */}
+                <linearGradient id="perfGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#38bdf8" />
+                  <stop offset="100%" stopColor="#22c55e" />
                 </linearGradient>
               </defs>
             </svg>
-          </div>
-
-          {/* New Capsule Design for main server */}
-          <motion.div
-            className="w-48 h-16 bg-white rounded-2xl shadow-[0_4px_20px_-5px_rgba(0,0,0,0.08)] flex items-center px-4 gap-3 relative z-20"
-            initial={{ y: -20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            <motion.div
-              className="w-4 h-4 rounded-full bg-red-400 shrink-0 shadow-[0_0_10px_rgba(248,113,113,0.5)]"
-              animate={{ opacity: [1, 0.4, 1], scale: [1, 1.15, 1] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-            />
-            <div className="flex-1 h-5 bg-slate-50 rounded-full overflow-hidden relative shadow-inner border border-slate-100">
-              <motion.div
-                className="absolute top-0 bottom-0 left-0 bg-gradient-to-r from-sky-400 to-sky-500 rounded-full"
-                animate={{ width: ["90%", "100%", "30%", "40%", "30%"] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-              />
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Scaling Router lines */}
-        <div className="w-80 h-16 relative">
-          {/* Central distribution node */}
-          <motion.div
-            className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-sky-400 rounded-full shadow-[0_0_10px_rgba(56,189,248,0.8)] z-10"
-            animate={{ scale: [1, 1.3, 1] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          />
-
-          <svg className="absolute inset-0 w-full h-full overflow-visible" viewBox="0 0 320 64" preserveAspectRatio="none">
-            {/* Smooth bezier curves for distribution */}
-            <path d="M 160 0 C 160 32, 40 32, 40 64" fill="none" stroke="#bae6fd" strokeWidth="2.5" strokeDasharray="6 6" />
-            <path d="M 160 0 C 160 32, 160 32, 160 64" fill="none" stroke="#bae6fd" strokeWidth="2.5" strokeDasharray="6 6" />
-            <path d="M 160 0 C 160 32, 280 32, 280 64" fill="none" stroke="#bae6fd" strokeWidth="2.5" strokeDasharray="6 6" />
-
-            {/* Packets distributing smoothly */}
-            {[
-              { path: "M 160 0 C 160 32, 40 32, 40 64", delay: 0 },
-              { path: "M 160 0 C 160 32, 160 32, 160 64", delay: 0.5 },
-              { path: "M 160 0 C 160 32, 280 32, 280 64", delay: 1 },
-              { path: "M 160 0 C 160 32, 40 32, 40 64", delay: 1.5 },
-              { path: "M 160 0 C 160 32, 160 32, 160 64", delay: 2 },
-              { path: "M 160 0 C 160 32, 280 32, 280 64", delay: 2.5 },
-            ].map((p, i) => (
-              <circle
-                key={`packet-${i}`}
-                cx={0}
-                cy={0}
-                r="5"
-                fill="#38bdf8"
-                style={{ filter: 'drop-shadow(0 0 6px rgba(56,189,248,0.8))' }}
+            
+            <div className="flex flex-col items-center text-center z-10">
+              <motion.div 
+                className="text-4xl font-black text-slate-800"
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.5, type: "spring" }}
               >
-                <animateMotion
-                  dur="2s"
-                  repeatCount="indefinite"
-                  path={p.path}
-                  begin={`${p.delay}s`}
-                  calcMode="linear"
-                />
-                <animate
-                  attributeName="opacity"
-                  values="0;1;1;0"
-                  keyTimes="0;0.2;0.8;1"
-                  dur="2s"
-                  repeatCount="indefinite"
-                  begin={`${p.delay}s`}
-                />
-              </circle>
-            ))}
-          </svg>
-        </div>
+                99
+              </motion.div>
+              <span className="text-[8px] font-bold uppercase tracking-widest text-slate-400 mt-0.5">Performance</span>
+            </div>
 
-        {/* Distributed Scaled Nodes */}
-        <div className="flex gap-8 w-full justify-center mt-2">
-          {[1, 2, 3].map((i) => (
+            {/* Pulse ring indicating maximum optimization */}
             <motion.div
-              key={i}
-              className="w-20 h-20 bg-white border border-slate-100 rounded-2xl shadow-xl flex flex-col items-center justify-center gap-3 relative"
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: i * 0.2 + 0.5 }}
-            >
-              <div className="flex gap-1.5 items-end h-8">
-                <motion.div className="w-2.5 bg-emerald-400 rounded-sm" animate={{ height: [8, 16, 8] }} transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.3 }} />
-                <motion.div className="w-2.5 bg-emerald-300 rounded-sm" animate={{ height: [12, 24, 12] }} transition={{ duration: 1.8, repeat: Infinity, delay: i * 0.3 + 0.2 }} />
-                <motion.div className="w-2.5 bg-emerald-200 rounded-sm" animate={{ height: [16, 8, 16] }} transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.3 + 0.4 }} />
-              </div>
-              <div className="w-10 h-2 bg-slate-100 rounded-full" />
-            </motion.div>
-          ))}
-        </div>
+              className="absolute inset-0 rounded-full border-2 border-emerald-400/50"
+              initial={{ scale: 1, opacity: 0 }}
+              animate={{ scale: [1, 1.3, 1], opacity: [0, 1, 0] }}
+              transition={{ duration: 2, repeat: Infinity, delay: 2.5 }}
+            />
+         </motion.div>
+
+         {/* Checklist of Optimizations */}
+         <div className="flex flex-col gap-2.5 w-full relative z-20">
+            {[
+              { label: "Assets Minified & Compressed", delay: 1.0 },
+              { label: "Advanced Edge Caching", delay: 1.4 },
+              { label: "Database Queries Optimized", delay: 1.8 }
+            ].map((item, i) => (
+               <motion.div
+                 key={i}
+                 className="w-full bg-white/90 backdrop-blur-sm border border-slate-100 shadow-sm rounded-xl px-4 py-2.5 flex items-center justify-between"
+                 initial={{ x: -30, opacity: 0 }}
+                 animate={{ x: 0, opacity: 1 }}
+                 transition={{ delay: item.delay, type: "spring", bounce: 0.4 }}
+               >
+                 <span className="text-xs font-semibold text-slate-600">{item.label}</span>
+                 <motion.div
+                   className="w-5 h-5 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600 shrink-0"
+                   initial={{ scale: 0, rotate: -180 }}
+                   animate={{ scale: 1, rotate: 0 }}
+                   transition={{ delay: item.delay + 0.3, type: "spring", bounce: 0.6 }}
+                 >
+                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                 </motion.div>
+               </motion.div>
+            ))}
+         </div>
       </div>
     </div>
   );
