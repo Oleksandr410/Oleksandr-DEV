@@ -1,3 +1,7 @@
+---
+alwaysApply: true
+---
+
 "use client";
 
 import { useState, useRef, useEffect } from "react";
@@ -71,8 +75,8 @@ const scenarios = [
     bullets: [
       "Core Web Vitals improvement",
       "Advanced caching strategies",
-      "Database optimization",
-      "Server performance tuning",
+      "DDatabase optimization",
+      "API performance resolution",
       "Code refactoring",
     ],
     value: "Ensuring your application remains fast and reliable as your user base grows.",
@@ -80,39 +84,24 @@ const scenarios = [
   },
   {
     id: "4",
-    title: "API Development & Integrations",
-    focus: "system connectivity & data exchange",
-    desc: "Building reliable APIs and integrating third-party services to connect systems, automate workflows, and enable seamless data exchange between platforms.",
+    title: "Stabilizing Projects",
+    focus: "rescue & refactoring",
+    desc: "Rescuing difficult-to-maintain codebases by identifying bottlenecks and refactoring for long-term stability.",
     bullets: [
-      "REST / GraphQL API development",
-      "Payment gateway integrations",
-      "CRM integrations",
-      "ERP integrations",
-      "Third-party platform integrations",
+      "Comprehensive system review & auditing",
+      "Technical debt identification",
+      "Database query optimization",
+      "Frontend logic simplification",
+      "Automated code testing & quality checks",
     ],
-    value: "Connected systems with reliable data flow and automated processes.",
+    value: "Turning unstable legacy systems into maintainable and reliable platforms.",
     visual: FixingProjectsVisual,
   },
   {
     id: "5",
-    title: "SaaS MVP Development",
-    focus: "startup product launch",
-    desc: "Helping founders turn an idea into a working SaaS product quickly by building a focused MVP ready for early users and validation.",
-    bullets: [
-      "MVP architecture & product setup",
-      "Core feature development",
-      "User authentication & account system",
-      "Basic billing & subscription setup",
-      "Production deployment",
-    ],
-    value: "Launch faster, validate the product, and iterate based on real users.",
-    visual: DeploymentVisual,
-  },
-  {
-    id: "6",
-    title: "DevOps & Deployment Setup",
+    title: "Deployment & Infra",
     focus: "cloud & automation",
-    desc: "Setting up reliable deployment systems and cloud environments so applications run smoothly in production.",
+    desc: "Setting up robust cloud environments and pipelines to ensure safe updates and reliable production systems.",
     bullets: [
       "Cloud infrastructure configurations",
       "CI/CD deployment pipelines",
@@ -123,21 +112,6 @@ const scenarios = [
     value: "Providing a secure, automated, and scalable foundation for your applications.",
     visual: DeploymentVisual,
   },
-  {
-    id: "7",
-    title: "Web Application Maintenance & Support",
-    focus: "ongoing reliability & support",
-    desc: "Providing ongoing maintenance and support to keep applications running smoothly and addressing any issues that arise.",
-    bullets: [
-      "Regular system checks & updates",
-      "Performance monitoring & optimization",
-      "Security patches & updates",
-      "Bug fixes & feature enhancements",
-      "Technical documentation & training",
-    ],
-    value: "Ensuring your application remains stable and secure as it grows and evolves.",
-    visual: DeploymentVisual,
-  }
 ];
 
 function ScrollMenuItem({
