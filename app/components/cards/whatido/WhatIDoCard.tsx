@@ -4,10 +4,12 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import {
   BuildFromScratchVisual,
-  FixingProjectsVisual,
   CMSVisual,
   ScalingVisual,
+  APIVisual,
+  SaaSVisual,
   DeploymentVisual,
+  MaintenanceVisual,
 } from "./WhatIDoVisuals";
 
 const cardVariants = {
@@ -91,7 +93,7 @@ const scenarios = [
       "Third-party platform integrations",
     ],
     value: "Connected systems with reliable data flow and automated processes.",
-    visual: FixingProjectsVisual,
+    visual: APIVisual,
   },
   {
     id: "5",
@@ -106,7 +108,7 @@ const scenarios = [
       "Production deployment",
     ],
     value: "Launch faster, validate the product, and iterate based on real users.",
-    visual: DeploymentVisual,
+    visual: SaaSVisual,
   },
   {
     id: "6",
@@ -136,7 +138,7 @@ const scenarios = [
       "Technical documentation & training",
     ],
     value: "Ensuring your application remains stable and secure as it grows and evolves.",
-    visual: DeploymentVisual,
+    visual: MaintenanceVisual,
   }
 ];
 
@@ -279,9 +281,9 @@ export default function WhatIDoCard() {
         {/* Right Side: Sticky Stage */}
         <div className="w-7/12 relative">
           {/* This container sticks to the screen while the user scrolls down the left side */}
-          <div className="sticky top-[20vh] h-[60vh] flex flex-col items-center justify-center p-12 overflow-visible m-8">
+          <div className="sticky top-[20vh] h-[60vh] flex flex-col items-center justify-center p-8 lg:p-12 overflow-visible">
             {/* Subtle background glow */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[35rem] h-[35rem] bg-sky-100/40 rounded-full blur-3xl pointer-events-none transition-all duration-700 ease-in-out" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] max-w-[35rem] aspect-square bg-sky-100/40 rounded-full blur-3xl pointer-events-none transition-all duration-700 ease-in-out" />
 
             <AnimatePresence mode="wait">
               <motion.div
@@ -290,11 +292,9 @@ export default function WhatIDoCard() {
                 animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
                 exit={{ opacity: 0, scale: 1.05, filter: "blur(8px)" }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                className="relative w-full h-full flex items-center justify-center"
+                className="relative w-full max-w-[32rem] aspect-[4/3] flex items-center justify-center"
               >
-                <div className="w-full h-full flex items-center justify-center transform lg:scale-[0.8] xl:scale-[0.95] 2xl:scale-100 origin-center transition-transform duration-300">
-                  <ActiveVisual />
-                </div>
+                <ActiveVisual />
               </motion.div>
             </AnimatePresence>
           </div>
@@ -302,7 +302,7 @@ export default function WhatIDoCard() {
       </div>
 
       {/* Mobile Layout - Vertical Flow */}
-      <div className="lg:hidden flex flex-col gap-12 px-6 py-10 border-t border-slate-100 bg-white">
+      <div className="lg:hidden flex flex-col gap-16 px-6 py-10 border-t border-slate-100 bg-white">
         {scenarios.map((scenario, index) => {
           const Visual = scenario.visual;
           return (
@@ -313,9 +313,9 @@ export default function WhatIDoCard() {
               viewport={{ once: true, margin: "-50px" }}
               className="flex flex-col gap-8"
             >
-              <div className="h-72 relative overflow-visible flex items-center justify-center">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-sky-100/40 rounded-full blur-2xl pointer-events-none" />
-                <div className="w-full h-full flex items-center justify-center transform scale-[0.65] min-[400px]:scale-[0.8] sm:scale-100 origin-center transition-transform duration-300">
+              <div className="relative w-full aspect-[4/3] max-w-[28rem] mx-auto flex items-center justify-center">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] aspect-square bg-sky-100/40 rounded-full blur-2xl pointer-events-none" />
+                <div className="w-full h-full flex items-center justify-center">
                   <Visual />
                 </div>
               </div>

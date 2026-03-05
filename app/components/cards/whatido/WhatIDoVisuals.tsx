@@ -213,104 +213,310 @@ export const BuildFromScratchVisual = () => {
   );
 };
 
-export const FixingProjectsVisual = () => {
+export const APIVisual = () => {
   return (
     <div className="relative w-full h-full flex items-center justify-center p-2">
-      {/* Background scanner grid */}
-      <div className="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none opacity-20">
-        <div className="w-full h-full bg-[linear-gradient(rgba(56,189,248,0.5)_1px,transparent_1px),linear-gradient(90deg,rgba(56,189,248,0.5)_1px,transparent_1px)] bg-[size:1rem_1rem]" />
-        {/* Sweeping scanner line */}
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-b from-transparent via-sky-400/30 to-sky-400/50 border-b border-sky-400"
-          initial={{ y: "-100%" }}
-          animate={{ y: "200%" }}
-          transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-        />
+      {/* Background grid */}
+      <div className="absolute inset-0 z-0 flex items-center justify-center opacity-30 pointer-events-none">
+        <div className="w-full h-full" style={{ backgroundImage: 'radial-gradient(#94a3b8 1px, transparent 1px)', backgroundSize: '16px 16px' }} />
       </div>
 
-      <div className="relative w-full max-w-sm h-full flex items-center justify-center">
-        {/* Chaotic / Tangled state disappearing */}
+      <div className="relative z-10 w-full max-w-sm flex items-center justify-between">
+        {/* System A */}
         <motion.div
-          className="absolute inset-0 flex items-center justify-center"
-          initial={{ opacity: 1, scale: 1 }}
-          animate={{ opacity: 0, scale: 0.8 }}
-          transition={{ delay: 1.5, duration: 1, ease: "easeInOut", repeat: Infinity, repeatDelay: 3 }}
+          className="w-20 h-24 bg-white border-2 border-slate-200 rounded-xl shadow-lg flex flex-col items-center justify-center gap-2 relative z-20"
+          initial={{ x: -20, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.5 }}
         >
-          <svg className="w-48 h-48 opacity-60" viewBox="0 0 100 100">
-            {[...Array(5)].map((_, i) => (
-              <motion.path
-                key={i}
-                d={`M${10 + i * 10} ${80 - i * 10} Q ${30 + (i * 15 % 40)} ${10 + (i * 25 % 80)}, ${90 - i * 5} ${20 + i * 15}`}
-                fill="transparent"
-                stroke="#ef4444"
-                strokeWidth="2"
-                strokeDasharray="4 4"
-                initial={{ pathLength: 0 }}
-                animate={{ pathLength: 1 }}
-                transition={{ duration: 1.5, ease: "easeInOut" }}
-              />
-            ))}
-            {/* Bug nodes */}
-            <circle cx={30} cy={40} r={4} fill="#ef4444" className="shadow-[0_0_8px_#ef4444]" />
-            <circle cx={70} cy={60} r={3} fill="#ef4444" />
-            <circle cx={50} cy={80} r={5} fill="#ef4444" />
-          </svg>
+          <div className="w-10 h-10 bg-indigo-50 rounded-full flex items-center justify-center">
+             <svg className="w-6 h-6 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+             </svg>
+          </div>
+          <div className="text-[10px] font-bold text-slate-500">System A</div>
         </motion.div>
 
-        {/* Structured / Fixed state appearing */}
-        <motion.div
-          className="absolute inset-0 flex flex-col items-center justify-center gap-4"
-          initial={{ opacity: 0, scale: 1.1 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 2, duration: 1, ease: "backOut", repeat: Infinity, repeatDelay: 3 }}
-        >
-          <div className="flex gap-4">
-            {[1, 2, 3].map((i) => (
-              <motion.div
-                key={`block-${i}`}
-                className="w-12 h-16 bg-white border-2 border-sky-300 rounded-lg shadow-lg flex flex-col items-center justify-center gap-2 relative"
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 2 + i * 0.2 }}
-              >
-                <div className="w-6 h-1.5 bg-sky-200 rounded-full" />
-                <div className="w-8 h-1.5 bg-sky-100 rounded-full" />
+        {/* API Core */}
+        <div className="flex-1 flex flex-col items-center justify-center relative">
+          {/* Connection lines */}
+          <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 flex items-center justify-between z-0">
+             <div className="w-1/2 h-1 bg-slate-100 relative overflow-hidden">
                 <motion.div
-                  className="absolute -top-2 -right-2 w-5 h-5 bg-green-400 rounded-full flex items-center justify-center shadow-md text-white"
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 2.6 + i * 0.1, type: "spring" }}
-                >
-                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                  </svg>
-                </motion.div>
-              </motion.div>
+                  className="absolute inset-0 bg-sky-400"
+                  initial={{ x: "-100%" }}
+                  animate={{ x: "100%" }}
+                  transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                />
+             </div>
+             <div className="w-1/2 h-1 bg-slate-100 relative overflow-hidden">
+                <motion.div
+                  className="absolute inset-0 bg-sky-400"
+                  initial={{ x: "100%" }}
+                  animate={{ x: "-100%" }}
+                  transition={{ duration: 1.5, repeat: Infinity, ease: "linear", delay: 0.75 }}
+                />
+             </div>
+          </div>
+
+          <motion.div
+            className="w-16 h-16 bg-gradient-to-tr from-sky-400 to-sky-500 rounded-xl shadow-xl flex items-center justify-center relative z-10 text-white"
+            animate={{ scale: [1, 1.05, 1], rotate: [0, 5, -5, 0] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          >
+             <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+             </svg>
+             <motion.div
+               className="absolute -inset-2 bg-sky-400/20 rounded-xl z-[-1]"
+               animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0, 0.5] }}
+               transition={{ duration: 2, repeat: Infinity }}
+             />
+          </motion.div>
+          <div className="absolute top-20 text-[10px] font-bold text-sky-600 bg-sky-50 px-2 py-0.5 rounded-full border border-sky-100">API Gateway</div>
+        </div>
+
+        {/* System B */}
+        <motion.div
+          className="w-20 h-24 bg-white border-2 border-slate-200 rounded-xl shadow-lg flex flex-col items-center justify-center gap-2 relative z-20"
+          initial={{ x: 20, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="w-10 h-10 bg-emerald-50 rounded-full flex items-center justify-center">
+             <svg className="w-6 h-6 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
+             </svg>
+          </div>
+          <div className="text-[10px] font-bold text-slate-500">System B</div>
+        </motion.div>
+      </div>
+      
+      {/* Floating Data Packets */}
+      <motion.div
+         className="absolute top-1/4 left-1/3 w-6 h-6 bg-white border border-slate-200 rounded shadow-sm flex items-center justify-center text-[8px] font-mono text-sky-500"
+         animate={{ y: [0, -10, 0], opacity: [0, 1, 0], x: [0, 20, 0] }}
+         transition={{ duration: 3, repeat: Infinity }}
+      >
+         JSON
+      </motion.div>
+      <motion.div
+         className="absolute bottom-1/4 right-1/3 w-6 h-6 bg-white border border-slate-200 rounded shadow-sm flex items-center justify-center text-[8px] font-mono text-emerald-500"
+         animate={{ y: [0, 10, 0], opacity: [0, 1, 0], x: [0, -20, 0] }}
+         transition={{ duration: 3, repeat: Infinity, delay: 1.5 }}
+      >
+         REST
+      </motion.div>
+    </div>
+  );
+};
+
+export const SaaSVisual = () => {
+  return (
+    <div className="relative w-full h-full flex flex-col items-center justify-center p-2">
+      {/* Background pattern */}
+      <div className="absolute inset-0 z-0 flex items-center justify-center opacity-20 pointer-events-none">
+        <div className="w-full h-full" style={{ backgroundImage: 'linear-gradient(45deg, #f1f5f9 25%, transparent 25%, transparent 75%, #f1f5f9 75%, #f1f5f9), linear-gradient(45deg, #f1f5f9 25%, transparent 25%, transparent 75%, #f1f5f9 75%, #f1f5f9)', backgroundSize: '20px 20px', backgroundPosition: '0 0, 10px 10px' }} />
+      </div>
+
+      <motion.div
+        className="w-full max-w-xs bg-white border-2 border-sky-100 rounded-2xl shadow-xl flex flex-col overflow-hidden z-10"
+        initial={{ y: 20, scale: 0.95, opacity: 0 }}
+        animate={{ y: 0, scale: 1, opacity: 1 }}
+        transition={{ duration: 0.6, type: "spring" }}
+      >
+        {/* App Header */}
+        <div className="h-12 bg-slate-50 border-b border-slate-100 flex items-center justify-between px-4">
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 rounded-md bg-gradient-to-tr from-sky-400 to-indigo-500 flex items-center justify-center">
+              <div className="w-2 h-2 bg-white rounded-sm" />
+            </div>
+            <div className="h-3 w-16 bg-slate-200 rounded" />
+          </div>
+          <div className="flex gap-2">
+            <div className="h-2 w-8 bg-slate-200 rounded" />
+            <div className="h-2 w-8 bg-slate-200 rounded" />
+            <div className="w-6 h-6 rounded-full bg-slate-200" />
+          </div>
+        </div>
+
+        {/* App Body */}
+        <div className="flex-1 p-4 flex gap-4 bg-white">
+          {/* Sidebar */}
+          <div className="w-16 flex flex-col gap-3">
+            {[1, 2, 3, 4].map(i => (
+               <motion.div 
+                 key={i} 
+                 className={`h-6 rounded-md ${i === 1 ? 'bg-sky-100' : 'bg-slate-100'}`}
+                 whileHover={{ scale: 1.05 }}
+               />
             ))}
           </div>
 
-          {/* Organized connecting lines */}
-          <div className="w-32 h-2 flex justify-between">
-            <div className="w-0.5 h-8 bg-sky-400/50 mx-auto" />
+          {/* Main Content */}
+          <div className="flex-1 flex flex-col gap-4">
+             {/* Stats Row */}
+             <div className="flex gap-2">
+               <motion.div 
+                 className="flex-1 h-16 bg-emerald-50 rounded-xl border border-emerald-100 p-2 flex flex-col justify-between"
+                 animate={{ y: [0, -2, 0] }}
+                 transition={{ duration: 2, repeat: Infinity, delay: 0 }}
+               >
+                 <div className="h-2 w-1/2 bg-emerald-200 rounded" />
+                 <div className="h-4 w-3/4 bg-emerald-400 rounded" />
+               </motion.div>
+               <motion.div 
+                 className="flex-1 h-16 bg-sky-50 rounded-xl border border-sky-100 p-2 flex flex-col justify-between"
+                 animate={{ y: [0, -2, 0] }}
+                 transition={{ duration: 2, repeat: Infinity, delay: 0.2 }}
+               >
+                 <div className="h-2 w-1/2 bg-sky-200 rounded" />
+                 <div className="h-4 w-3/4 bg-sky-400 rounded" />
+               </motion.div>
+             </div>
+
+             {/* Chart Area */}
+             <div className="flex-1 bg-slate-50 rounded-xl border border-slate-100 p-3 flex flex-col">
+                <div className="flex justify-between items-center mb-2">
+                  <div className="h-2 w-1/4 bg-slate-200 rounded" />
+                  <div className="h-2 w-1/5 bg-slate-200 rounded" />
+                </div>
+                <div className="flex-1 flex items-end gap-1">
+                  {[40, 60, 30, 70, 50, 80, 40, 90].map((h, i) => (
+                    <motion.div
+                      key={i}
+                      className="flex-1 bg-gradient-to-t from-sky-400 to-sky-300 rounded-t-sm"
+                      initial={{ height: 0 }}
+                      animate={{ height: `${h}%` }}
+                      transition={{ duration: 1, delay: 0.5 + i * 0.1 }}
+                    />
+                  ))}
+                </div>
+             </div>
           </div>
-          <div className="w-48 h-12 bg-sky-50 border-2 border-sky-400/50 rounded-xl flex items-center justify-center shadow-inner relative overflow-hidden">
-            <motion.div
-              className="absolute inset-0 bg-sky-400/20"
-              initial={{ x: "-100%" }}
-              animate={{ x: "100%" }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-            />
-            <div className="flex gap-2 relative z-10">
-              {[...Array(4)].map((_, i) => (
-                <div key={i} className="w-6 h-2 bg-sky-400 rounded-full shadow-sm" />
-              ))}
-            </div>
-          </div>
+        </div>
+        
+        {/* Launch Banner Overlay */}
+        <motion.div
+           className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-sky-500 to-indigo-500 text-white text-[10px] font-bold px-4 py-1.5 rounded-full shadow-lg flex items-center gap-2 whitespace-nowrap"
+           initial={{ y: 20, opacity: 0 }}
+           animate={{ y: 0, opacity: 1 }}
+           transition={{ delay: 1.5, type: "spring" }}
+        >
+           <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+           </svg>
+           MVP Launched
         </motion.div>
+      </motion.div>
+    </div>
+  );
+};
+
+export const MaintenanceVisual = () => {
+  return (
+    <div className="relative w-full h-full flex flex-col items-center justify-center p-4">
+      {/* Background rotating gears */}
+      <div className="absolute inset-0 z-0 flex items-center justify-center opacity-10 pointer-events-none overflow-hidden">
+         <motion.svg className="w-64 h-64 text-slate-400 absolute -top-10 -right-10" fill="currentColor" viewBox="0 0 24 24" animate={{ rotate: 360 }} transition={{ duration: 20, repeat: Infinity, ease: "linear" }}>
+           <path d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+         </motion.svg>
+      </div>
+
+      <div className="relative z-10 w-full max-w-sm flex flex-col items-center gap-6">
+        
+        {/* Monitoring Dashboard */}
+        <motion.div
+           className="w-full bg-slate-800 rounded-xl shadow-xl border-2 border-slate-700 p-4 flex flex-col gap-4 relative overflow-hidden"
+           initial={{ y: 20, opacity: 0 }}
+           animate={{ y: 0, opacity: 1 }}
+           transition={{ duration: 0.6 }}
+        >
+           {/* Header */}
+           <div className="flex justify-between items-center border-b border-slate-700 pb-2">
+              <div className="flex items-center gap-2">
+                 <div className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]" />
+                 <span className="text-[10px] font-mono text-emerald-400">SYSTEM.OK</span>
+              </div>
+              <div className="text-[10px] font-mono text-slate-400">UPTIME: 99.99%</div>
+           </div>
+           
+           {/* Heartbeat Graph */}
+           <div className="h-12 w-full relative flex items-center justify-center">
+              <svg viewBox="0 0 100 20" className="w-full h-full preserve-aspect-ratio-none">
+                 <motion.path
+                   d="M 0 10 L 20 10 L 25 2 L 30 18 L 35 10 L 70 10 L 75 2 L 80 18 L 85 10 L 100 10"
+                   fill="none"
+                   stroke="#34d399"
+                   strokeWidth="1.5"
+                   strokeLinejoin="round"
+                   initial={{ pathLength: 0 }}
+                   animate={{ pathLength: 1 }}
+                   transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                 />
+              </svg>
+              {/* Scanning bar */}
+              <motion.div 
+                 className="absolute top-0 bottom-0 w-8 bg-gradient-to-r from-transparent via-emerald-400/20 to-transparent"
+                 animate={{ left: ["-10%", "110%"] }}
+                 transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+              />
+           </div>
+
+           {/* Stats Grid */}
+           <div className="grid grid-cols-3 gap-2">
+              {[
+                { label: "CPU", val: "24%", color: "text-sky-400", bg: "bg-sky-400/20" },
+                { label: "MEM", val: "45%", color: "text-sky-400", bg: "bg-sky-400/20" },
+                { label: "SEC", val: "SECURE", color: "text-emerald-400", bg: "bg-emerald-400/20" }
+              ].map((stat, i) => (
+                 <div key={i} className="bg-slate-900 rounded p-2 flex flex-col items-center justify-center gap-1 border border-slate-700">
+                    <span className="text-[8px] text-slate-500">{stat.label}</span>
+                    <span className={`text-[10px] font-bold ${stat.color}`}>{stat.val}</span>
+                 </div>
+              ))}
+           </div>
+        </motion.div>
+
+        {/* Floating Tools / Updates */}
+        <div className="flex gap-4">
+           <motion.div
+              className="w-12 h-12 bg-white rounded-full shadow-lg border border-slate-100 flex items-center justify-center text-sky-500 relative"
+              animate={{ y: [0, -5, 0] }}
+              transition={{ duration: 2, repeat: Infinity }}
+           >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              <motion.div className="absolute -top-1 -right-1 w-4 h-4 bg-sky-500 rounded-full text-white flex items-center justify-center text-[8px] font-bold border border-white" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1, type: "spring" }}>1</motion.div>
+           </motion.div>
+
+           <motion.div
+              className="w-12 h-12 bg-white rounded-full shadow-lg border border-slate-100 flex items-center justify-center text-indigo-500"
+              animate={{ y: [0, -5, 0] }}
+              transition={{ duration: 2, repeat: Infinity, delay: 0.3 }}
+           >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+              </svg>
+           </motion.div>
+
+           <motion.div
+              className="w-12 h-12 bg-white rounded-full shadow-lg border border-slate-100 flex items-center justify-center text-emerald-500"
+              animate={{ y: [0, -5, 0] }}
+              transition={{ duration: 2, repeat: Infinity, delay: 0.6 }}
+           >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+              </svg>
+           </motion.div>
+        </div>
+
       </div>
     </div>
   );
 };
+
 
 export const CMSVisual = () => {
   return (
