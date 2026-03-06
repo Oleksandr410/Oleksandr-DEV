@@ -171,15 +171,15 @@ function ScrollMenuItem({
   return (
     <div
       ref={ref}
-      className={`transition-all duration-700 ${isActive
+      className={`transition-all duration-300 ${isActive
         ? "opacity-100 translate-x-0"
         : "opacity-30 -translate-x-4"
         }`}
     >
       <div className="flex items-center gap-4 mb-6">
-        <div className={`w-1 transition-all duration-700 rounded-full ${isActive ? 'h-8 bg-sky-500' : 'h-0 bg-transparent'}`} />
+        <div className={`w-1 transition-all duration-300 rounded-full ${isActive ? 'h-8 bg-sky-500' : 'h-0 bg-transparent'}`} />
         <h3
-          className={`font-bold transition-colors duration-700 ${isActive ? "text-sky-600 text-3xl" : "text-slate-500 text-2xl"
+          className={`font-bold transition-colors duration-300 ${isActive ? "text-sky-600 text-3xl" : "text-slate-500 text-2xl"
             }`}
         >
           {scenario.id}. {scenario.title}
@@ -187,7 +187,7 @@ function ScrollMenuItem({
       </div>
       <div className="pl-5 space-y-8">
         {/* Focus */}
-        <div className={`transition-colors duration-700 text-base ${isActive ? "text-slate-600" : "text-slate-400"}`}>
+        <div className={`transition-colors duration-300 text-base ${isActive ? "text-slate-600" : "text-slate-400"}`}>
           Focus: <span className={`font-bold ${isActive ? "text-sky-600" : "text-slate-500"}`}>{scenario.focus}</span>
         </div>
 
@@ -196,7 +196,7 @@ function ScrollMenuItem({
           <div className={`text-xs uppercase font-bold tracking-wider mb-3 ${isActive ? "text-slate-400" : "text-slate-300"}`}>
             Description
           </div>
-          <div className={`pl-4 border-l-2 transition-colors duration-700 ${isActive ? "border-sky-300 text-slate-700" : "border-slate-200 text-slate-500"}`}>
+          <div className={`pl-4 border-l-2 transition-colors duration-300 ${isActive ? "border-sky-300 text-slate-700" : "border-slate-200 text-slate-500"}`}>
             <p className="text-lg leading-relaxed">
               {scenario.desc}
             </p>
@@ -212,10 +212,10 @@ function ScrollMenuItem({
             {scenario.bullets.map((bullet: string, i: number) => (
               <li
                 key={i}
-                className={`flex items-center gap-3 transition-colors duration-700 text-base ${isActive ? "text-slate-600" : "text-slate-400"
+                className={`flex items-center gap-3 transition-colors duration-300 text-base ${isActive ? "text-slate-600" : "text-slate-400"
                   }`}
               >
-                <div className={`w-1.5 h-1.5 rounded-full shrink-0 transition-colors duration-700 ${isActive ? "bg-sky-500" : "bg-slate-300"}`} />
+                <div className={`w-1.5 h-1.5 rounded-full shrink-0 transition-colors duration-300 ${isActive ? "bg-sky-500" : "bg-slate-300"}`} />
                 <span>{bullet}</span>
               </li>
             ))}
@@ -227,7 +227,7 @@ function ScrollMenuItem({
           <div className={`text-xs uppercase font-bold tracking-wider mb-3 ${isActive ? "text-slate-400" : "text-slate-300"}`}>
             Value
           </div>
-          <p className={`transition-colors duration-700 text-base italic ${isActive ? "text-slate-700" : "text-slate-500"}`}>
+          <p className={`transition-colors duration-300 text-base italic ${isActive ? "text-slate-700" : "text-slate-500"}`}>
             {scenario.value}
           </p>
         </div>
@@ -243,7 +243,7 @@ export default function WhatIDoCard() {
 
   return (
     <motion.article
-      className="w-full max-w-6xl rounded-3xl border-8 border-white bg-white shadow-2xl text-slate-800 flex flex-col relative"
+      className="w-full lg:w-[960px] xl:w-[1161px] max-w-full rounded-3xl border-8 border-white bg-white shadow-2xl text-slate-800 flex flex-col relative mx-auto"
       variants={cardVariants}
       initial="hidden"
       whileInView="visible"
@@ -251,22 +251,35 @@ export default function WhatIDoCard() {
     >
       {/* Header Section */}
       <motion.div
-        className="pt-10 md:pt-16 px-6 md:px-12 text-center max-w-3xl mx-auto mb-8 lg:mb-0 relative z-10 bg-white"
+        className="pt-12 md:pt-20 px-6 md:px-12 md:text-left text-center max-w-3xl md:max-w-none relative z-10 bg-white"
         variants={itemVariants}
       >
-        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-800 mb-4">
+        <div className="flex items-center justify-center md:justify-start mb-4">
+          <span
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-sky-100 mr-3"
+            aria-hidden
+          >
+            <svg className="w-5 h-5 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+          </span>
+          <span className="text-xs sm:text-sm font-medium text-sky-600 tracking-wide">
+            Services & Expertise
+          </span>
+        </div>
+        <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-800 mb-2.5 sm:mb-3">
           What I Do
         </h2>
-        <p className="text-slate-600 text-sm sm:text-base md:text-lg leading-relaxed">
+        <p className="text-slate-600 text-xs sm:text-sm md:text-base leading-relaxed max-w-2xl mx-auto md:mx-0">
           I help businesses build, fix, and improve web applications across the full development lifecycle.
         </p>
       </motion.div>
 
       {/* Main Interactive Area - Desktop */}
-      <div className="hidden lg:flex relative border-t border-slate-100 bg-white">
+      <div className="hidden lg:flex relative bg-white">
 
         {/* Left Side: Scrollable Text List (Natural Page Scroll) */}
-        <div className="w-5/12 border-r border-slate-100 px-10 py-[20vh] flex flex-col gap-[35vh]">
+        <div className="w-5/12 px-10 py-[20vh] flex flex-col gap-[35vh]">
           {scenarios.map((scenario, index) => (
             <ScrollMenuItem
               key={index}
@@ -291,7 +304,7 @@ export default function WhatIDoCard() {
                 initial={{ opacity: 0, scale: 0.95, filter: "blur(8px)" }}
                 animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
                 exit={{ opacity: 0, scale: 1.05, filter: "blur(8px)" }}
-                transition={{ duration: 0.5, ease: "easeOut" }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
                 className="relative w-full max-w-[32rem] aspect-[4/3] flex items-center justify-center"
               >
                 <ActiveVisual />
@@ -302,7 +315,7 @@ export default function WhatIDoCard() {
       </div>
 
       {/* Mobile Layout - Vertical Flow */}
-      <div className="lg:hidden flex flex-col gap-16 px-6 py-10 border-t border-slate-100 bg-white">
+      <div className="lg:hidden flex flex-col gap-16 px-6 py-10 bg-white">
         {scenarios.map((scenario, index) => {
           const Visual = scenario.visual;
           return (
@@ -368,7 +381,7 @@ export default function WhatIDoCard() {
 
       {/* Footer Section */}
       <motion.div
-        className="pt-8 md:pt-10 border-t border-slate-100 bg-white px-6 md:px-12 pb-8 md:pb-10 relative z-30 rounded-b-2xl"
+        className="pt-8 md:pt-10 bg-white px-6 md:px-12 pb-8 md:pb-10 relative z-30 rounded-b-2xl"
         variants={itemVariants}
       >
         <div className="max-w-4xl mx-auto">
