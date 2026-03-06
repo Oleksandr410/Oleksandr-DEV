@@ -29,7 +29,7 @@ export function Chatbot({ className }: ChatbotProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
-      content: "Hello! I'm Steve Anguiano. How can I help you today?",
+      content: "Hello! I'm Randy. How can I help you today?",
       sender: "bot",
       timestamp: new Date(),
     },
@@ -275,10 +275,10 @@ export function Chatbot({ className }: ChatbotProps) {
           >
             <button
               onClick={toggleChat}
-              className="group relative flex h-12 w-12 items-center justify-center rounded-full bg-primary-base p-0 shadow-lg transition-all hover:bg-primary-base/90 dark:bg-primary-base-dark dark:hover:bg-primary-base-dark/90 sm:h-14 sm:w-14"
+              className="group relative flex h-12 w-12 items-center justify-center rounded-full bg-sky-500 p-0 shadow-lg transition-all hover:bg-sky-600 sm:h-14 sm:w-14"
             >
               <MessageCircle className="h-5 w-5 text-white transition-transform group-hover:scale-110 sm:h-6 sm:w-6" />
-              <div className="absolute -right-1 -top-1 h-2.5 w-2.5 rounded-full bg-accent-base dark:bg-accent-base-dark sm:h-3 sm:w-3" />
+              <div className="absolute -right-1 -top-1 h-2.5 w-2.5 rounded-full bg-sky-300 sm:h-3 sm:w-3 border border-white" />
             </button>
           </motion.div>
         )}
@@ -297,65 +297,56 @@ export function Chatbot({ className }: ChatbotProps) {
           >
             <div
               className={cn(
-                "relative overflow-hidden rounded-lg border border-primary-base/20 bg-background-base/95 shadow-xl backdrop-blur-sm transition-all duration-500 ease-in-out dark:border-primary-base-dark/20 dark:bg-background-base-dark/95",
+                "relative overflow-hidden rounded-3xl border-8 border-white bg-white shadow-2xl transition-all duration-500 ease-in-out",
                 // Responsive width and height
                 "w-[calc(100vw-1rem)] max-w-[400px] sm:w-[400px] lg:w-[450px]",
                 // Responsive height
                 isMinimized
-                  ? "h-[48px] sm:h-[52px]"
+                  ? "h-[64px] sm:h-[68px]"
                   : "h-[calc(100vh-2rem)] max-h-[500px] sm:h-[500px]",
               )}
             >
               {/* Header */}
               <div
                 className={cn(
-                  "flex items-center justify-between bg-background-base/80 px-3 transition-all duration-500 ease-in-out dark:bg-background-base-dark/80 sm:px-4",
+                  "flex items-center justify-between bg-slate-50 px-4 transition-all duration-500 ease-in-out sm:px-6",
                   isMinimized
-                    ? "h-12 border-0"
-                    : "h-12 border-b border-primary-base/10 dark:border-primary-base-dark/10",
+                    ? "h-12 sm:h-14 border-0"
+                    : "h-14 sm:h-16 border-b border-slate-100",
                 )}
               >
-                {/* Left side - Traffic lights and title */}
-                <div className="flex items-center gap-2 sm:gap-3">
-                  <div className="flex items-center gap-1">
-                    <div className="h-1.5 w-1.5 rounded-full bg-red-500/60 sm:h-2 sm:w-2"></div>
-                    <div className="h-1.5 w-1.5 rounded-full bg-yellow-500/60 sm:h-2 sm:w-2"></div>
-                    <div className="h-1.5 w-1.5 rounded-full bg-green-500/60 sm:h-2 sm:w-2"></div>
-                  </div>
-                  <div className="flex items-center gap-1.5 sm:gap-2">
-                    <motion.img
-                      src="/me.png"
-                      alt="Steve Anguiano"
-                      className="h-6 w-6 rounded-full object-cover sm:h-7 sm:w-7"
-                      initial={{ scale: 0.8, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      transition={{ duration: 0.3, ease: "easeOut" }}
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.95 }}
-                    />
-                    <span className="font-space-grotesk text-xs font-medium text-primary-base-dark dark:text-primary-base-dark sm:text-sm">
+                {/* Left side - title */}
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2 sm:gap-3">
+                    <span
+                      className="flex h-8 w-8 items-center justify-center rounded-full bg-sky-100 shrink-0"
+                      aria-hidden
+                    >
+                      <MessageCircle className="w-4 h-4 text-sky-600" />
+                    </span>
+                    <span className="font-bold text-slate-800 text-sm sm:text-base">
                       AI Assistant
                     </span>
                   </div>
                 </div>
 
                 {/* Right side - Control buttons */}
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-2">
                   <button
                     onClick={toggleMinimize}
-                    className="flex h-5 w-5 items-center justify-center rounded-md p-0 hover:bg-primary-base/10 dark:hover:bg-primary-base-dark/10 sm:h-6 sm:w-6"
+                    className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-slate-200 transition-colors text-slate-500 hover:text-slate-700"
                   >
                     {isMinimized ? (
-                      <Maximize2 className="h-2.5 w-2.5 text-primary-base-dark dark:text-primary-base-dark sm:h-3 sm:w-3" />
+                      <Maximize2 className="h-4 w-4" />
                     ) : (
-                      <Minimize2 className="h-2.5 w-2.5 text-primary-base-dark dark:text-primary-base-dark sm:h-3 sm:w-3" />
+                      <Minimize2 className="h-4 w-4" />
                     )}
                   </button>
                   <button
                     onClick={toggleChat}
-                    className="flex h-5 w-5 items-center justify-center rounded-md p-0 hover:bg-primary-base/10 dark:hover:bg-primary-base-dark/10 sm:h-6 sm:w-6"
+                    className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-slate-200 transition-colors text-slate-500 hover:text-slate-700"
                   >
-                    <X className="h-2.5 w-2.5 text-primary-base-dark dark:text-primary-base-dark sm:h-3 sm:w-3" />
+                    <X className="h-4 w-4" />
                   </button>
                 </div>
               </div>
@@ -370,12 +361,12 @@ export function Chatbot({ className }: ChatbotProps) {
                     <div className="space-y-3 sm:space-y-4">
                       {/* Chat History Start Indicator */}
                       <div className="flex items-center justify-center py-2">
-                        <div className="flex items-center gap-2 rounded-full border border-primary-base/10 bg-background-base/40 px-3 py-1 dark:border-primary-base-dark/10 dark:bg-background-base-dark/40">
+                        <div className="flex items-center gap-2 rounded-full border border-slate-100 bg-slate-50 px-3 py-1">
                           <div className="relative">
-                            <div className="h-2 w-2 animate-pulse rounded-full bg-primary-base/60 dark:bg-primary-base-dark/60"></div>
-                            <div className="absolute inset-0 h-2 w-2 animate-ping rounded-full bg-primary-base/40 dark:bg-primary-base-dark/40"></div>
+                            <div className="h-2 w-2 animate-pulse rounded-full bg-slate-400"></div>
+                            <div className="absolute inset-0 h-2 w-2 animate-ping rounded-full bg-slate-400 opacity-20"></div>
                           </div>
-                          <span className="text-xs font-medium text-primary-base-dark/70 dark:text-primary-base-dark/70">
+                          <span className="text-xs font-medium text-slate-500">
                             Chat started
                           </span>
                         </div>
@@ -389,33 +380,27 @@ export function Chatbot({ className }: ChatbotProps) {
                           transition={{ duration: 0.3 }}
                           className={cn(
                             "flex gap-2 sm:gap-3",
-                            // On mobile/tablet: user messages on right, AI on left
-                            // On laptop+: all messages on left
                             message.sender === "user"
                               ? "justify-end lg:justify-start"
                               : "justify-start",
                           )}
                         >
                           {message.sender === "bot" && (
-                            <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center overflow-hidden rounded-full border border-primary-base/20 bg-gradient-to-br from-primary-base/20 to-primary-base/10 dark:border-primary-base-dark/20 dark:from-primary-base-dark/20 dark:to-primary-base-dark/10 sm:h-8 sm:w-8">
-                              <img
-                                src="/me.png"
-                                alt="Steve Anguiano"
-                                className="h-full w-full"
-                              />
+                            <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-sky-100">
+                              <MessageCircle className="h-4 w-4 text-sky-600" />
                             </div>
                           )}
                           {message.sender === "user" && (
-                            <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full border border-accent-base/20 bg-gradient-to-br from-accent-base/20 to-accent-base/10 dark:border-accent-base-dark/20 dark:from-accent-base-dark/20 dark:to-accent-base-dark/10 sm:h-8 sm:w-8 lg:order-first">
-                              <User className="h-3.5 w-3.5 text-accent-base dark:text-accent-base-dark sm:h-4 sm:w-4" />
+                            <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-slate-100 lg:order-first">
+                              <User className="h-4 w-4 text-slate-500" />
                             </div>
                           )}
                           <div
                             className={cn(
-                              "relative max-w-[85%] rounded-2xl px-3 py-2 text-xs shadow-sm sm:max-w-[80%] sm:px-4 sm:py-3 sm:text-sm",
+                              "relative max-w-[85%] rounded-2xl px-4 py-3 text-sm shadow-sm sm:max-w-[80%]",
                               message.sender === "user"
-                                ? "rounded-br-md bg-gradient-to-br from-primary-base to-primary-base/90 text-white dark:from-primary-base-dark dark:to-primary-base-dark/90 dark:text-white"
-                                : "rounded-bl-md border border-primary-base/10 bg-gradient-to-br from-background-base/80 to-background-base/60 text-primary-base-dark dark:border-primary-base-dark/10 dark:from-background-base-dark/80 dark:to-background-base-dark/60 dark:text-primary-base-dark",
+                                ? "rounded-br-md bg-sky-500 text-white"
+                                : "rounded-bl-md border border-slate-100 bg-white text-slate-700",
                             )}
                           >
                             <div className="leading-relaxed">
@@ -432,25 +417,21 @@ export function Chatbot({ className }: ChatbotProps) {
                           animate={{ opacity: 1, y: 0 }}
                           className="flex gap-2 sm:gap-3"
                         >
-                          <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center overflow-hidden rounded-full border border-primary-base/20 bg-gradient-to-br from-primary-base/20 to-primary-base/10 dark:border-primary-base-dark/20 dark:from-primary-base-dark/20 dark:to-primary-base-dark/10 sm:h-8 sm:w-8">
-                            <img
-                              src="/me.png"
-                              alt="Steve Anguiano"
-                              className="h-full w-full"
-                            />
+                          <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-sky-100">
+                            <MessageCircle className="h-4 w-4 text-sky-600" />
                           </div>
-                          <div className="flex items-center gap-1 rounded-2xl rounded-bl-md border border-primary-base/10 bg-gradient-to-br from-background-base/80 to-background-base/60 px-3 py-2 shadow-sm dark:border-primary-base-dark/10 dark:from-background-base-dark/80 dark:to-background-base-dark/60">
-                            <div className="flex gap-1">
+                          <div className="flex items-center gap-1 rounded-2xl rounded-bl-md border border-slate-100 bg-white px-4 py-3 shadow-sm">
+                            <div className="flex gap-1.5">
                               <div
-                                className="h-1.5 w-1.5 animate-bounce rounded-full bg-primary-base/60 dark:bg-primary-base-dark/60 sm:h-2 sm:w-2"
+                                className="h-1.5 w-1.5 animate-bounce rounded-full bg-sky-400"
                                 style={{ animationDelay: "0ms" }}
                               ></div>
                               <div
-                                className="h-1.5 w-1.5 animate-bounce rounded-full bg-primary-base/60 dark:bg-primary-base-dark/60 sm:h-2 sm:w-2"
+                                className="h-1.5 w-1.5 animate-bounce rounded-full bg-sky-400"
                                 style={{ animationDelay: "150ms" }}
                               ></div>
                               <div
-                                className="h-1.5 w-1.5 animate-bounce rounded-full bg-primary-base/60 dark:bg-primary-base-dark/60 sm:h-2 sm:w-2"
+                                className="h-1.5 w-1.5 animate-bounce rounded-full bg-sky-400"
                                 style={{ animationDelay: "300ms" }}
                               ></div>
                             </div>
@@ -461,9 +442,9 @@ export function Chatbot({ className }: ChatbotProps) {
                       {/* New Messages Indicator */}
                       {hasNewMessages && (
                         <div className="flex items-center justify-center py-2">
-                          <div className="flex items-center gap-2 rounded-full border border-accent-base/30 bg-accent-base/20 px-3 py-1 dark:border-accent-base-dark/30 dark:bg-accent-base-dark/20">
-                            <div className="h-2 w-2 animate-pulse rounded-full bg-accent-base"></div>
-                            <span className="text-xs font-medium text-accent-base dark:text-accent-base-dark">
+                          <div className="flex items-center gap-2 rounded-full border border-sky-200 bg-sky-50 px-3 py-1">
+                            <div className="h-2 w-2 animate-pulse rounded-full bg-sky-500"></div>
+                            <span className="text-xs font-medium text-sky-600">
                               New messages
                             </span>
                           </div>
@@ -474,7 +455,7 @@ export function Chatbot({ className }: ChatbotProps) {
                   </div>
 
                   {/* Input Area */}
-                  <div className="border-t border-primary-base/10 bg-background-base/80 p-3 dark:border-primary-base-dark/10 dark:bg-background-base-dark/80 sm:p-4">
+                  <div className="border-t border-slate-100 bg-slate-50 p-3 sm:p-4">
                     <div className="flex gap-2">
                       <input
                         ref={inputRef}
@@ -492,12 +473,12 @@ export function Chatbot({ className }: ChatbotProps) {
                             : "Type your message..."
                         }
                         disabled={isTyping}
-                        className="flex-1 rounded-md border border-primary-base/20 bg-background-base/60 px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-primary-base/50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-primary-base-dark/20 dark:bg-background-base-dark/60 sm:text-sm"
+                        className="flex-1 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:opacity-50"
                       />
                       <button
                         onClick={handleSendMessage}
                         disabled={!inputValue.trim() || isTyping}
-                        className="flex h-8 w-8 items-center justify-center rounded-md bg-primary-base p-0 hover:bg-primary-base/90 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-primary-base-dark dark:hover:bg-primary-base-dark/90 sm:h-10 sm:w-10"
+                        className="flex h-8 w-8 items-center justify-center rounded-md bg-sky-500 p-0 hover:bg-sky-600 disabled:cursor-not-allowed disabled:opacity-50 sm:h-10 sm:w-10 transition-colors"
                       >
                         <Send className="h-3.5 w-3.5 text-white sm:h-4 sm:w-4" />
                       </button>
