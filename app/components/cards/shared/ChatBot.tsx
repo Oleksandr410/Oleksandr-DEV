@@ -258,7 +258,7 @@ export function Chatbot({ className }: ChatbotProps) {
   return (
     <div
       className={cn(
-        "fixed bottom-2 right-2 z-50 sm:bottom-4 sm:right-4",
+        "fixed bottom-[35px] right-[35px] z-50 sm:bottom-20 sm:right-20",
         className,
       )}
     >
@@ -293,48 +293,43 @@ export function Chatbot({ className }: ChatbotProps) {
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.8, opacity: 0, y: 20 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="relative"
+            className="absolute bottom-0 right-0 origin-bottom-right"
           >
             <div
               className={cn(
-                "relative overflow-hidden rounded-3xl border-8 border-white bg-white shadow-2xl transition-all duration-500 ease-in-out",
+                "relative flex flex-col overflow-hidden rounded-2xl bg-slate-900/95 backdrop-blur-xl shadow-2xl ring-1 ring-white/10 transition-all duration-500 ease-in-out",
                 // Responsive width and height
-                "w-[calc(100vw-1rem)] max-w-[400px] sm:w-[400px] lg:w-[450px]",
+                "w-[calc(100vw-70px)] max-w-[400px] sm:w-[400px] lg:w-[450px]",
                 // Responsive height
                 isMinimized
-                  ? "h-[64px] sm:h-[68px]"
-                  : "h-[calc(100vh-2rem)] max-h-[500px] sm:h-[500px]",
+                  ? "h-[64px]"
+                  : "h-[calc(100vh-100px)] max-h-[600px] sm:h-[600px]",
               )}
             >
               {/* Header */}
               <div
                 className={cn(
-                  "flex items-center justify-between bg-slate-50 px-4 transition-all duration-500 ease-in-out sm:px-6",
+                  "flex items-center justify-between px-4 sm:px-6 transition-all duration-500 ease-in-out z-10",
                   isMinimized
-                    ? "h-12 sm:h-14 border-0"
-                    : "h-14 sm:h-16 border-b border-slate-100",
+                    ? "h-16"
+                    : "h-16 border-b border-white/10 bg-white/5",
                 )}
               >
                 {/* Left side - title */}
                 <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-2 sm:gap-3">
-                    <span
-                      className="flex h-8 w-8 items-center justify-center rounded-full bg-sky-100 shrink-0"
-                      aria-hidden
-                    >
-                      <MessageCircle className="w-4 h-4 text-sky-600" />
-                    </span>
-                    <span className="font-bold text-slate-800 text-sm sm:text-base">
-                      AI Assistant
-                    </span>
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-sky-500/20 text-sky-400">
+                    <MessageCircle className="w-4 h-4" />
                   </div>
+                  <span className="font-semibold text-white text-sm sm:text-base tracking-wide">
+                    AI Assistant
+                  </span>
                 </div>
 
                 {/* Right side - Control buttons */}
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1">
                   <button
                     onClick={toggleMinimize}
-                    className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-slate-200 transition-colors text-slate-500 hover:text-slate-700"
+                    className="flex h-8 w-8 items-center justify-center rounded-full text-slate-400 hover:bg-white/10 hover:text-white transition-colors"
                   >
                     {isMinimized ? (
                       <Maximize2 className="h-4 w-4" />
@@ -344,7 +339,7 @@ export function Chatbot({ className }: ChatbotProps) {
                   </button>
                   <button
                     onClick={toggleChat}
-                    className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-slate-200 transition-colors text-slate-500 hover:text-slate-700"
+                    className="flex h-8 w-8 items-center justify-center rounded-full text-slate-400 hover:bg-white/10 hover:text-white transition-colors"
                   >
                     <X className="h-4 w-4" />
                   </button>
@@ -353,138 +348,132 @@ export function Chatbot({ className }: ChatbotProps) {
 
               {/* Messages Area */}
               {!isMinimized && (
-                <div className="flex h-[calc(100%-48px)] flex-col sm:h-[calc(100%-52px)]">
+                <>
                   <div
                     ref={messagesContainerRef}
-                    className="scrollbar-clean flex-1 overflow-y-auto p-3 sm:p-4"
+                    className="scrollbar-clean flex-1 overflow-y-auto p-4 sm:p-5 space-y-6"
                   >
-                    <div className="space-y-3 sm:space-y-4">
-                      {/* Chat History Start Indicator */}
-                      <div className="flex items-center justify-center py-2">
-                        <div className="flex items-center gap-2 rounded-full border border-slate-100 bg-slate-50 px-3 py-1">
-                          <div className="relative">
-                            <div className="h-2 w-2 animate-pulse rounded-full bg-slate-400"></div>
-                            <div className="absolute inset-0 h-2 w-2 animate-ping rounded-full bg-slate-400 opacity-20"></div>
+                    {/* Chat History Start Indicator */}
+                    <div className="flex items-center justify-center pt-2 pb-4">
+                      <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5">
+                        <div className="relative flex h-2 w-2">
+                          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-sky-400 opacity-75"></span>
+                          <span className="relative inline-flex h-2 w-2 rounded-full bg-sky-500"></span>
+                        </div>
+                        <span className="text-xs font-medium text-slate-300 uppercase tracking-wider">
+                          Chat Started
+                        </span>
+                      </div>
+                    </div>
+
+                    {messages.map((message) => (
+                      <motion.div
+                        key={message.id}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className={cn(
+                          "flex gap-3",
+                          message.sender === "user"
+                            ? "flex-row-reverse"
+                            : "flex-row",
+                        )}
+                      >
+                        {/* Avatar */}
+                        {message.sender === "bot" ? (
+                          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-sky-500/20 text-sky-400 mt-1 border border-sky-500/20">
+                            <MessageCircle className="h-4 w-4" />
                           </div>
-                          <span className="text-xs font-medium text-slate-500">
-                            Chat started
+                        ) : (
+                          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/10 text-slate-300 mt-1 border border-white/10">
+                            <User className="h-4 w-4" />
+                          </div>
+                        )}
+
+                        {/* Bubble */}
+                        <div
+                          className={cn(
+                            "relative flex max-w-[80%] flex-col px-4 py-3 text-sm shadow-sm",
+                            message.sender === "user"
+                              ? "bg-sky-500 text-white rounded-2xl rounded-tr-sm"
+                              : "bg-white/10 text-slate-200 rounded-2xl rounded-tl-sm border border-white/5",
+                          )}
+                        >
+                          <div className="leading-relaxed whitespace-pre-wrap">
+                            {message.content}
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
+
+                    {/* Typing Indicator */}
+                    {isTyping && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="flex gap-3 flex-row"
+                      >
+                        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-sky-500/20 text-sky-400 mt-1 border border-sky-500/20">
+                          <MessageCircle className="h-4 w-4" />
+                        </div>
+                        <div className="flex items-center gap-1.5 px-4 py-4 rounded-2xl rounded-tl-sm bg-white/10 text-slate-200 border border-white/5">
+                          <div
+                            className="h-1.5 w-1.5 animate-bounce rounded-full bg-slate-400"
+                            style={{ animationDelay: "0ms" }}
+                          ></div>
+                          <div
+                            className="h-1.5 w-1.5 animate-bounce rounded-full bg-slate-400"
+                            style={{ animationDelay: "150ms" }}
+                          ></div>
+                          <div
+                            className="h-1.5 w-1.5 animate-bounce rounded-full bg-slate-400"
+                            style={{ animationDelay: "300ms" }}
+                          ></div>
+                        </div>
+                      </motion.div>
+                    )}
+
+                    {/* New Messages Indicator */}
+                    {hasNewMessages && (
+                      <div className="flex items-center justify-center py-2">
+                        <div className="flex items-center gap-2 rounded-full border border-sky-500/30 bg-sky-500/20 px-3 py-1">
+                          <div className="h-2 w-2 animate-pulse rounded-full bg-sky-400"></div>
+                          <span className="text-xs font-medium text-sky-300">
+                            New messages below
                           </span>
                         </div>
                       </div>
-
-                      {messages.map((message) => (
-                        <motion.div
-                          key={message.id}
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.3 }}
-                          className={cn(
-                            "flex gap-2 sm:gap-3",
-                            message.sender === "user"
-                              ? "justify-end lg:justify-start"
-                              : "justify-start",
-                          )}
-                        >
-                          {message.sender === "bot" && (
-                            <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-sky-100">
-                              <MessageCircle className="h-4 w-4 text-sky-600" />
-                            </div>
-                          )}
-                          {message.sender === "user" && (
-                            <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-slate-100 lg:order-first">
-                              <User className="h-4 w-4 text-slate-500" />
-                            </div>
-                          )}
-                          <div
-                            className={cn(
-                              "relative max-w-[85%] rounded-2xl px-4 py-3 text-sm shadow-sm sm:max-w-[80%]",
-                              message.sender === "user"
-                                ? "rounded-br-md bg-sky-500 text-white"
-                                : "rounded-bl-md border border-slate-100 bg-white text-slate-700",
-                            )}
-                          >
-                            <div className="leading-relaxed">
-                              {message.content}
-                            </div>
-                          </div>
-                        </motion.div>
-                      ))}
-
-                      {/* Typing Indicator */}
-                      {isTyping && (
-                        <motion.div
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          className="flex gap-2 sm:gap-3"
-                        >
-                          <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-sky-100">
-                            <MessageCircle className="h-4 w-4 text-sky-600" />
-                          </div>
-                          <div className="flex items-center gap-1 rounded-2xl rounded-bl-md border border-slate-100 bg-white px-4 py-3 shadow-sm">
-                            <div className="flex gap-1.5">
-                              <div
-                                className="h-1.5 w-1.5 animate-bounce rounded-full bg-sky-400"
-                                style={{ animationDelay: "0ms" }}
-                              ></div>
-                              <div
-                                className="h-1.5 w-1.5 animate-bounce rounded-full bg-sky-400"
-                                style={{ animationDelay: "150ms" }}
-                              ></div>
-                              <div
-                                className="h-1.5 w-1.5 animate-bounce rounded-full bg-sky-400"
-                                style={{ animationDelay: "300ms" }}
-                              ></div>
-                            </div>
-                          </div>
-                        </motion.div>
-                      )}
-
-                      {/* New Messages Indicator */}
-                      {hasNewMessages && (
-                        <div className="flex items-center justify-center py-2">
-                          <div className="flex items-center gap-2 rounded-full border border-sky-200 bg-sky-50 px-3 py-1">
-                            <div className="h-2 w-2 animate-pulse rounded-full bg-sky-500"></div>
-                            <span className="text-xs font-medium text-sky-600">
-                              New messages
-                            </span>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                    <div ref={messagesEndRef} />
+                    )}
+                    
+                    <div ref={messagesEndRef} className="h-2" />
                   </div>
 
                   {/* Input Area */}
-                  <div className="border-t border-slate-100 bg-slate-50 p-3 sm:p-4">
-                    <div className="flex gap-2">
+                  <div className="p-4 sm:p-5 bg-slate-900/50 backdrop-blur-md border-t border-white/10">
+                    <div className="relative flex items-center">
                       <input
                         ref={inputRef}
                         value={inputValue}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)}
                         onKeyPress={handleKeyPress}
-                        onClick={() => {
-                          if (isTyping && inputRef.current) {
-                            inputRef.current.focus();
-                          }
-                        }}
                         placeholder={
                           isTyping
-                            ? "AI is responding..."
-                            : "Type your message..."
+                            ? "AI is typing..."
+                            : "Message AI Assistant..."
                         }
                         disabled={isTyping}
-                        className="flex-1 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:opacity-50"
+                        className="w-full rounded-full bg-white/5 border border-white/10 py-3.5 pl-5 pr-12 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500/50 focus:bg-white/10 focus:border-transparent disabled:opacity-50 transition-all shadow-inner"
                       />
                       <button
                         onClick={handleSendMessage}
                         disabled={!inputValue.trim() || isTyping}
-                        className="flex h-8 w-8 items-center justify-center rounded-md bg-sky-500 p-0 hover:bg-sky-600 disabled:cursor-not-allowed disabled:opacity-50 sm:h-10 sm:w-10 transition-colors"
+                        className="absolute right-1.5 flex h-10 w-10 items-center justify-center rounded-full bg-sky-500 text-white transition-all hover:bg-sky-400 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:hover:bg-sky-500 disabled:hover:scale-100"
                       >
-                        <Send className="h-3.5 w-3.5 text-white sm:h-4 sm:w-4" />
+                        <Send className="h-4 w-4 ml-0.5" />
                       </button>
                     </div>
                   </div>
-                </div>
+                </>
               )}
             </div>
           </motion.div>
