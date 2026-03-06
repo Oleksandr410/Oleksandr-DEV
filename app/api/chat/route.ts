@@ -1,6 +1,9 @@
 import { GoogleGenAI } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+export const runtime = "edge";
+export const dynamic = "force-dynamic";
+
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
 
 export async function POST(req: Request) {
   try {
@@ -67,7 +70,7 @@ export async function POST(req: Request) {
     }
 
     const responseStream = await ai.models.generateContentStream({
-      model: "gemini-2.5-flash",
+      model: "gemini-2.5-flash-lite",
       contents: normalizedMessages,
       config: {
         systemInstruction:
@@ -83,7 +86,6 @@ export async function POST(req: Request) {
           for await (const chunk of responseStream) {
             const text = chunk.text;
             if (text) {
-              // Convert text to JSON string carefully to avoid breaking the JSON
               const textContent = JSON.stringify({ content: text });
               controller.enqueue(encoder.encode(`data: ${textContent}\n\n`));
             }
@@ -100,8 +102,9 @@ export async function POST(req: Request) {
     return new Response(stream, {
       headers: {
         "Content-Type": "text/event-stream",
-        "Cache-Control": "no-cache",
+        "Cache-Control": "no-cache, no-transform",
         Connection: "keep-alive",
+        "Content-Encoding": "none",
       },
     });
   } catch (error) {

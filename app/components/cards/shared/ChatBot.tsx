@@ -2,13 +2,15 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import {
   MessageCircle,
   X,
   Send,
   User,
-  Minimize2,
-  Maximize2,
+  Expand,
+  Shrink,
 } from "lucide-react";
 import { cn } from "../../../../libs/utils";
 
@@ -25,7 +27,7 @@ interface ChatbotProps {
 
 export function Chatbot({ className }: ChatbotProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [isMinimized, setIsMinimized] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
@@ -95,6 +97,18 @@ export function Chatbot({ className }: ChatbotProps) {
     return () => container.removeEventListener("scroll", handleScroll);
   }, [hasNewMessages]);
 
+  // Prevent background scrolling when chat is open
+  useEffect(() => {
+    if (isOpen) {
+      // Save original overflow
+      const originalStyle = window.getComputedStyle(document.body).overflow;
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = originalStyle;
+      };
+    }
+  }, [isOpen]);
+
   const handleSendMessage = async () => {
     if (!inputValue.trim() || isTyping) return;
 
@@ -142,8 +156,7 @@ export function Chatbot({ className }: ChatbotProps) {
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
       let accumulatedContent = "";
-      let lastUpdateTime = 0;
-      const updateInterval = 50; // Minimum 50ms between updates for smoothness
+      let buffer = "";
 
       // Create initial bot message
       const botMessage: Message = {
@@ -160,10 +173,12 @@ export function Chatbot({ className }: ChatbotProps) {
 
         if (done) break;
 
-        const chunk = decoder.decode(value);
-        const lines = chunk.split("\n");
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop() || "";
 
         for (const line of lines) {
+          if (line.trim() === "") continue;
           if (line.startsWith("data: ")) {
             const data = line.slice(6);
 
@@ -188,22 +203,17 @@ export function Chatbot({ className }: ChatbotProps) {
               if (parsed.content) {
                 accumulatedContent += parsed.content;
 
-                // Throttle updates for smoother appearance
-                const now = Date.now();
-                if (now - lastUpdateTime >= updateInterval) {
-                  // Update the message content
-                  setMessages((prev) =>
-                    prev.map((msg) =>
-                      msg.id === botMessage.id
-                        ? { ...msg, content: accumulatedContent }
-                        : msg,
-                    ),
-                  );
+                // Update the message content without throttling so it streams naturally
+                setMessages((prev) =>
+                  prev.map((msg) =>
+                    msg.id === botMessage.id
+                      ? { ...msg, content: accumulatedContent }
+                      : msg,
+                  ),
+                );
 
-                  // Scroll to show new content
-                  setTimeout(() => scrollToBottom(), 20);
-                  lastUpdateTime = now;
-                }
+                // Scroll to show new content
+                setTimeout(() => scrollToBottom(), 20);
               }
             } catch (e) {
               // Ignore parsing errors for incomplete chunks
@@ -247,12 +257,12 @@ export function Chatbot({ className }: ChatbotProps) {
   const toggleChat = () => {
     setIsOpen(!isOpen);
     if (!isOpen) {
-      setIsMinimized(false);
+      setIsExpanded(false);
     }
   };
 
-  const toggleMinimize = () => {
-    setIsMinimized(!isMinimized);
+  const toggleExpand = () => {
+    setIsExpanded(!isExpanded);
   };
 
   return (
@@ -297,12 +307,14 @@ export function Chatbot({ className }: ChatbotProps) {
           >
             <div
               className={cn(
-                "relative flex flex-col overflow-hidden rounded-2xl bg-slate-900/95 backdrop-blur-xl shadow-2xl ring-1 ring-white/10 transition-all duration-500 ease-in-out",
-                // Responsive width and height
-                "w-[calc(100vw-70px)] max-w-[400px] sm:w-[400px] lg:w-[450px]",
+                "relative flex flex-col overflow-hidden rounded-2xl bg-white/95 backdrop-blur-xl shadow-2xl ring-1 ring-slate-200/50 transition-all duration-500 ease-in-out",
+                // Responsive width
+                isExpanded
+                  ? "w-[calc(100vw-40px)] sm:w-[calc(100vw-80px)] lg:w-[800px] xl:w-[1000px]"
+                  : "w-[calc(100vw-70px)] max-w-[400px] sm:w-[400px] lg:w-[450px]",
                 // Responsive height
-                isMinimized
-                  ? "h-[64px]"
+                isExpanded
+                  ? "h-[calc(100vh-40px)] sm:h-[calc(100vh-100px)] max-h-[900px]"
                   : "h-[calc(100vh-100px)] max-h-[600px] sm:h-[600px]",
               )}
             >
@@ -310,17 +322,15 @@ export function Chatbot({ className }: ChatbotProps) {
               <div
                 className={cn(
                   "flex items-center justify-between px-4 sm:px-6 transition-all duration-500 ease-in-out z-10",
-                  isMinimized
-                    ? "h-16"
-                    : "h-16 border-b border-white/10 bg-white/5",
+                  "h-16 border-b border-slate-100 bg-slate-50/50",
                 )}
               >
                 {/* Left side - title */}
                 <div className="flex items-center gap-3">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-sky-500/20 text-sky-400">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-sky-500/20 text-sky-600">
                     <MessageCircle className="w-4 h-4" />
                   </div>
-                  <span className="font-semibold text-white text-sm sm:text-base tracking-wide">
+                  <span className="font-semibold text-slate-800 text-sm sm:text-base tracking-wide">
                     AI Assistant
                   </span>
                 </div>
@@ -328,18 +338,18 @@ export function Chatbot({ className }: ChatbotProps) {
                 {/* Right side - Control buttons */}
                 <div className="flex items-center gap-1">
                   <button
-                    onClick={toggleMinimize}
-                    className="flex h-8 w-8 items-center justify-center rounded-full text-slate-400 hover:bg-white/10 hover:text-white transition-colors"
+                    onClick={toggleExpand}
+                    className="flex h-8 w-8 items-center justify-center rounded-full text-slate-500 hover:bg-slate-200 hover:text-slate-800 transition-colors"
                   >
-                    {isMinimized ? (
-                      <Maximize2 className="h-4 w-4" />
+                    {isExpanded ? (
+                      <Shrink className="h-4 w-4" />
                     ) : (
-                      <Minimize2 className="h-4 w-4" />
+                      <Expand className="h-4 w-4" />
                     )}
                   </button>
                   <button
                     onClick={toggleChat}
-                    className="flex h-8 w-8 items-center justify-center rounded-full text-slate-400 hover:bg-white/10 hover:text-white transition-colors"
+                    className="flex h-8 w-8 items-center justify-center rounded-full text-slate-500 hover:bg-slate-200 hover:text-slate-800 transition-colors"
                   >
                     <X className="h-4 w-4" />
                   </button>
@@ -347,20 +357,19 @@ export function Chatbot({ className }: ChatbotProps) {
               </div>
 
               {/* Messages Area */}
-              {!isMinimized && (
-                <>
-                  <div
+              <>
+                <div
                     ref={messagesContainerRef}
-                    className="scrollbar-clean flex-1 overflow-y-auto p-4 sm:p-5 space-y-6"
+                    className="scrollbar-clean flex-1 overflow-y-auto overscroll-contain p-4 sm:p-5 space-y-6"
                   >
                     {/* Chat History Start Indicator */}
                     <div className="flex items-center justify-center pt-2 pb-4">
-                      <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5">
+                      <div className="flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-1.5">
                         <div className="relative flex h-2 w-2">
                           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-sky-400 opacity-75"></span>
                           <span className="relative inline-flex h-2 w-2 rounded-full bg-sky-500"></span>
                         </div>
-                        <span className="text-xs font-medium text-slate-300 uppercase tracking-wider">
+                        <span className="text-xs font-medium text-slate-500 uppercase tracking-wider">
                           Chat Started
                         </span>
                       </div>
@@ -381,11 +390,11 @@ export function Chatbot({ className }: ChatbotProps) {
                       >
                         {/* Avatar */}
                         {message.sender === "bot" ? (
-                          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-sky-500/20 text-sky-400 mt-1 border border-sky-500/20">
+                          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-sky-50 text-sky-600 mt-1 border border-sky-100">
                             <MessageCircle className="h-4 w-4" />
                           </div>
                         ) : (
-                          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/10 text-slate-300 mt-1 border border-white/10">
+                          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-500 mt-1 border border-slate-200">
                             <User className="h-4 w-4" />
                           </div>
                         )}
@@ -396,11 +405,22 @@ export function Chatbot({ className }: ChatbotProps) {
                             "relative flex max-w-[80%] flex-col px-4 py-3 text-sm shadow-sm",
                             message.sender === "user"
                               ? "bg-sky-500 text-white rounded-2xl rounded-tr-sm"
-                              : "bg-white/10 text-slate-200 rounded-2xl rounded-tl-sm border border-white/5",
+                              : "bg-slate-50 text-slate-700 rounded-2xl rounded-tl-sm border border-slate-200",
                           )}
                         >
-                          <div className="leading-relaxed whitespace-pre-wrap">
-                            {message.content}
+                          <div className={cn(
+                            "leading-relaxed",
+                            message.sender === "user" 
+                              ? "whitespace-pre-wrap"
+                              : "prose prose-sm max-w-none prose-p:leading-relaxed prose-p:last:mb-0 prose-pre:bg-slate-800 prose-pre:border prose-pre:border-slate-700 prose-code:text-sky-400"
+                          )}>
+                            {message.sender === "bot" ? (
+                              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                                {message.content}
+                              </ReactMarkdown>
+                            ) : (
+                              message.content
+                            )}
                           </div>
                         </div>
                       </motion.div>
@@ -413,10 +433,10 @@ export function Chatbot({ className }: ChatbotProps) {
                         animate={{ opacity: 1, y: 0 }}
                         className="flex gap-3 flex-row"
                       >
-                        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-sky-500/20 text-sky-400 mt-1 border border-sky-500/20">
+                        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-sky-50 text-sky-600 mt-1 border border-sky-100">
                           <MessageCircle className="h-4 w-4" />
                         </div>
-                        <div className="flex items-center gap-1.5 px-4 py-4 rounded-2xl rounded-tl-sm bg-white/10 text-slate-200 border border-white/5">
+                        <div className="flex items-center gap-1.5 px-4 py-4 rounded-2xl rounded-tl-sm bg-slate-50 text-slate-700 border border-slate-200">
                           <div
                             className="h-1.5 w-1.5 animate-bounce rounded-full bg-slate-400"
                             style={{ animationDelay: "0ms" }}
@@ -436,20 +456,20 @@ export function Chatbot({ className }: ChatbotProps) {
                     {/* New Messages Indicator */}
                     {hasNewMessages && (
                       <div className="flex items-center justify-center py-2">
-                        <div className="flex items-center gap-2 rounded-full border border-sky-500/30 bg-sky-500/20 px-3 py-1">
-                          <div className="h-2 w-2 animate-pulse rounded-full bg-sky-400"></div>
-                          <span className="text-xs font-medium text-sky-300">
+                        <div className="flex items-center gap-2 rounded-full border border-sky-200 bg-sky-50 px-3 py-1 shadow-sm">
+                          <div className="h-2 w-2 animate-pulse rounded-full bg-sky-500"></div>
+                          <span className="text-xs font-medium text-sky-600">
                             New messages below
                           </span>
                         </div>
                       </div>
                     )}
-                    
+
                     <div ref={messagesEndRef} className="h-2" />
                   </div>
 
                   {/* Input Area */}
-                  <div className="p-4 sm:p-5 bg-slate-900/50 backdrop-blur-md border-t border-white/10">
+                  <div className="p-4 sm:p-5 bg-white/80 backdrop-blur-md border-t border-slate-200">
                     <div className="relative flex items-center">
                       <input
                         ref={inputRef}
@@ -462,7 +482,7 @@ export function Chatbot({ className }: ChatbotProps) {
                             : "Message AI Assistant..."
                         }
                         disabled={isTyping}
-                        className="w-full rounded-full bg-white/5 border border-white/10 py-3.5 pl-5 pr-12 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500/50 focus:bg-white/10 focus:border-transparent disabled:opacity-50 transition-all shadow-inner"
+                        className="w-full rounded-full bg-slate-50 border border-slate-200 py-3.5 pl-5 pr-12 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500/50 focus:bg-white focus:border-transparent disabled:opacity-50 transition-all shadow-inner"
                       />
                       <button
                         onClick={handleSendMessage}
@@ -474,7 +494,6 @@ export function Chatbot({ className }: ChatbotProps) {
                     </div>
                   </div>
                 </>
-              )}
             </div>
           </motion.div>
         )}
