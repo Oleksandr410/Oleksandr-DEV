@@ -2,8 +2,6 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   MessageCircle,
   X,
@@ -12,7 +10,7 @@ import {
   Minimize2,
   Maximize2,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "../../../../libs/utils";
 
 interface Message {
   id: string;
@@ -275,14 +273,13 @@ export function Chatbot({ className }: ChatbotProps) {
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
             className="absolute bottom-0 right-0"
           >
-            <Button
+            <button
               onClick={toggleChat}
-              className="group relative h-12 w-12 rounded-full bg-primary-base p-0 shadow-lg transition-all hover:bg-primary-base/90 dark:bg-primary-base-dark dark:hover:bg-primary-base-dark/90 sm:h-14 sm:w-14"
-              size="icon"
+              className="group relative flex h-12 w-12 items-center justify-center rounded-full bg-primary-base p-0 shadow-lg transition-all hover:bg-primary-base/90 dark:bg-primary-base-dark dark:hover:bg-primary-base-dark/90 sm:h-14 sm:w-14"
             >
               <MessageCircle className="h-5 w-5 text-white transition-transform group-hover:scale-110 sm:h-6 sm:w-6" />
               <div className="absolute -right-1 -top-1 h-2.5 w-2.5 rounded-full bg-accent-base dark:bg-accent-base-dark sm:h-3 sm:w-3" />
-            </Button>
+            </button>
           </motion.div>
         )}
       </AnimatePresence>
@@ -327,7 +324,7 @@ export function Chatbot({ className }: ChatbotProps) {
                   </div>
                   <div className="flex items-center gap-1.5 sm:gap-2">
                     <motion.img
-                      src="/images/chatassistant.png"
+                      src="/me.png"
                       alt="Steve Anguiano"
                       className="h-6 w-6 rounded-full object-cover sm:h-7 sm:w-7"
                       initial={{ scale: 0.8, opacity: 0 }}
@@ -344,10 +341,8 @@ export function Chatbot({ className }: ChatbotProps) {
 
                 {/* Right side - Control buttons */}
                 <div className="flex items-center gap-1">
-                  <Button
+                  <button
                     onClick={toggleMinimize}
-                    variant="ghost"
-                    size="icon"
                     className="flex h-5 w-5 items-center justify-center rounded-md p-0 hover:bg-primary-base/10 dark:hover:bg-primary-base-dark/10 sm:h-6 sm:w-6"
                   >
                     {isMinimized ? (
@@ -355,15 +350,13 @@ export function Chatbot({ className }: ChatbotProps) {
                     ) : (
                       <Minimize2 className="h-2.5 w-2.5 text-primary-base-dark dark:text-primary-base-dark sm:h-3 sm:w-3" />
                     )}
-                  </Button>
-                  <Button
+                  </button>
+                  <button
                     onClick={toggleChat}
-                    variant="ghost"
-                    size="icon"
                     className="flex h-5 w-5 items-center justify-center rounded-md p-0 hover:bg-primary-base/10 dark:hover:bg-primary-base-dark/10 sm:h-6 sm:w-6"
                   >
                     <X className="h-2.5 w-2.5 text-primary-base-dark dark:text-primary-base-dark sm:h-3 sm:w-3" />
-                  </Button>
+                  </button>
                 </div>
               </div>
 
@@ -406,7 +399,7 @@ export function Chatbot({ className }: ChatbotProps) {
                           {message.sender === "bot" && (
                             <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center overflow-hidden rounded-full border border-primary-base/20 bg-gradient-to-br from-primary-base/20 to-primary-base/10 dark:border-primary-base-dark/20 dark:from-primary-base-dark/20 dark:to-primary-base-dark/10 sm:h-8 sm:w-8">
                               <img
-                                src="/images/chatassistant.png"
+                                src="/me.png"
                                 alt="Steve Anguiano"
                                 className="h-full w-full"
                               />
@@ -441,7 +434,7 @@ export function Chatbot({ className }: ChatbotProps) {
                         >
                           <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center overflow-hidden rounded-full border border-primary-base/20 bg-gradient-to-br from-primary-base/20 to-primary-base/10 dark:border-primary-base-dark/20 dark:from-primary-base-dark/20 dark:to-primary-base-dark/10 sm:h-8 sm:w-8">
                             <img
-                              src="/images/chatassistant.png"
+                              src="/me.png"
                               alt="Steve Anguiano"
                               className="h-full w-full"
                             />
@@ -483,10 +476,10 @@ export function Chatbot({ className }: ChatbotProps) {
                   {/* Input Area */}
                   <div className="border-t border-primary-base/10 bg-background-base/80 p-3 dark:border-primary-base-dark/10 dark:bg-background-base-dark/80 sm:p-4">
                     <div className="flex gap-2">
-                      <Input
+                      <input
                         ref={inputRef}
                         value={inputValue}
-                        onChange={(e) => setInputValue(e.target.value)}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)}
                         onKeyPress={handleKeyPress}
                         onClick={() => {
                           if (isTyping && inputRef.current) {
@@ -499,16 +492,15 @@ export function Chatbot({ className }: ChatbotProps) {
                             : "Type your message..."
                         }
                         disabled={isTyping}
-                        className="flex-1 border-primary-base/20 bg-background-base/60 text-xs disabled:cursor-not-allowed disabled:opacity-50 dark:border-primary-base-dark/20 dark:bg-background-base-dark/60 sm:text-sm"
+                        className="flex-1 rounded-md border border-primary-base/20 bg-background-base/60 px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-primary-base/50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-primary-base-dark/20 dark:bg-background-base-dark/60 sm:text-sm"
                       />
-                      <Button
+                      <button
                         onClick={handleSendMessage}
                         disabled={!inputValue.trim() || isTyping}
-                        className="h-8 w-8 rounded-md bg-primary-base p-0 hover:bg-primary-base/90 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-primary-base-dark dark:hover:bg-primary-base-dark/90 sm:h-10 sm:w-10"
-                        size="icon"
+                        className="flex h-8 w-8 items-center justify-center rounded-md bg-primary-base p-0 hover:bg-primary-base/90 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-primary-base-dark dark:hover:bg-primary-base-dark/90 sm:h-10 sm:w-10"
                       >
                         <Send className="h-3.5 w-3.5 text-white sm:h-4 sm:w-4" />
-                      </Button>
+                      </button>
                     </div>
                   </div>
                 </div>
