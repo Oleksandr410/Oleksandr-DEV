@@ -381,7 +381,7 @@ export default function WhatIDoCard() {
 
       {/* Footer Section */}
       <motion.div
-        className="pt-8 md:pt-10 bg-white px-6 md:px-12 pb-8 md:pb-10 relative z-30 rounded-b-2xl"
+        className="pt-8 md:pt-10 bg-white px-6 md:px-12 pb-8 md:pb-10 relative rounded-b-2xl"
         variants={itemVariants}
       >
         <div className="max-w-4xl mx-auto">
