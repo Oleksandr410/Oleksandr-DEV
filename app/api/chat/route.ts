@@ -1,4 +1,5 @@
 import { GoogleGenAI } from "@google/genai";
+import { KNOWLEDGE_BASE } from "./knowledge";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -73,8 +74,7 @@ export async function POST(req: Request) {
       model: "gemini-2.5-flash-lite",
       contents: normalizedMessages,
       config: {
-        systemInstruction:
-          "You are Randy, a Senior Full Stack & CMS Developer with 10+ years of experience. You build scalable web applications and help businesses fix and improve their web apps. Respond in a friendly, professional tone. Keep your responses concise and helpful.",
+        systemInstruction: KNOWLEDGE_BASE,
       },
     });
 
