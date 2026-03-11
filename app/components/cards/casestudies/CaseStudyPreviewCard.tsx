@@ -3,9 +3,18 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion, type Variants } from "framer-motion";
-import { ArrowRight } from "lucide-react";
 import type { CaseStudyRow, ScreenshotItem } from "@/libs/supabase/types";
-import { MarkdownBlock } from "@/app/components/ui/MarkdownBlock";
+
+function stripMarkdown(md: string): string {
+  return md
+    .replace(/\*\*(.+?)\*\*/g, "$1")
+    .replace(/\*(.+?)\*/g, "$1")
+    .replace(/\[(.+?)\]\(.+?\)/g, "$1")
+    .replace(/^#+\s*/gm, "")
+    .replace(/^[-*]\s+/gm, "")
+    .replace(/\n+/g, " ")
+    .trim();
+}
 
 function getCoverImageUrl(screenshots: ScreenshotItem[] | null): string | null {
   if (!screenshots?.length) return null;
@@ -67,14 +76,33 @@ export default function CaseStudyPreviewCard({
             <p className="text-xs text-slate-500 mb-1.5 truncate">{study.client_info}</p>
           )}
           {hasOverview && (
-            <div className="line-clamp-2 [&_.prose]:text-sm [&_.prose]:my-0">
-              <MarkdownBlock content={study.project_overview!} className="[&_p]:text-sm [&_p]:my-0" disableLinks />
+            <div className="overflow-hidden min-w-0">
+              <div className="flex gap-20 group/excerpt w-0">
+                {Array(3)
+                  .fill(0)
+                  .map((_, i) => (
+                    <p
+                      key={i}
+                      className="whitespace-nowrap animate-marquee-text"
+                    >
+                      {stripMarkdown(study.project_overview!)}
+                    </p>
+                  ))}
+              </div>
             </div>
           )}
-          <span className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-sky-600 opacity-0 group-hover:opacity-100 transition-opacity">
-            View case study
-            <ArrowRight className="w-3.5 h-3.5" />
-          </span>
+          {(study.skills ?? []).filter(Boolean).length > 0 && (
+            <div className="mt-3 flex flex-wrap gap-1.5">
+              {(study.skills ?? []).filter(Boolean).map((skill) => (
+                <span
+                  key={skill}
+                  className="inline-flex items-center rounded-md bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600"
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
       </Link>
     </motion.div>
