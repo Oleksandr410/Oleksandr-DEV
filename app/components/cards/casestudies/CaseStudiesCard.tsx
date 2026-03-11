@@ -1,6 +1,11 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useState, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Filter, X } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
+import type { CaseStudyRow } from "@/lib/supabase/types";
+import CaseStudyPreviewCard from "./CaseStudyPreviewCard";
 
 const cardVariants = {
   hidden: { opacity: 0, scale: 0.96, y: 24 },
@@ -11,7 +16,6 @@ const cardVariants = {
     transition: {
       duration: 0.6,
       ease: [0.25, 0.46, 0.45, 0.94],
-      staggerChildren: 0.1,
     },
   },
 };
@@ -25,73 +29,114 @@ const itemVariants = {
   },
 };
 
-const caseStudies = [
-  {
-    id: "cs-1",
-    clientType: "E-Commerce Brand",
-    title: "Headless Migration & Performance Optimization",
-    description:
-      "Migrated a legacy monolithic e-commerce platform to a modern headless architecture using Next.js and Shopify Storefront API. This shift resolved severe bottleneck issues during high-traffic events.",
-    results: [
-      "Reduced page load time by 45%",
-      "Increased conversion rate by 18%",
-      "Zero downtime during Black Friday event",
-    ],
-    techStack: ["Next.js", "Shopify", "Tailwind CSS", "Vercel"],
-  },
-  {
-    id: "cs-2",
-    clientType: "Fintech Startup",
-    title: "Real-time Transaction Dashboard",
-    description:
-      "Built a secure, real-time admin portal for a fintech startup to monitor thousands of daily transactions, manage risk profiles, and generate complex financial reports.",
-    results: [
-      "Reduced report generation time from hours to seconds",
-      "Handled 10k+ concurrent websocket connections",
-      "Implemented strict Role-Based Access Control (RBAC)",
-    ],
-    techStack: ["React", "Node.js", "PostgreSQL", "WebSockets"],
-  },
-  {
-    id: "cs-3",
-    clientType: "Healthcare Provider",
-    title: "HIPAA-Compliant Patient Portal",
-    description:
-      "Developed a secure patient portal allowing users to access lab results, schedule appointments, and communicate with healthcare providers directly, ensuring full HIPAA compliance.",
-    results: [
-      "Streamlined appointment booking process",
-      "End-to-end encrypted messaging",
-      "Seamless integration with legacy EHR systems",
-    ],
-    techStack: ["Next.js", "GraphQL", "AWS", "Prisma"],
-  },
-  {
-    id: "cs-4",
-    clientType: "SaaS Company",
-    title: "B2B Multi-tenant Platform Restructure",
-    description:
-      "Rescued a failing SaaS product by refactoring its core architecture. Transitioned to a multi-tenant database strategy and cleaned up technical debt to restore system stability and developer velocity.",
-    results: [
-      "Eliminated critical database locking issues",
-      "Reduced server hosting costs by 30%",
-      "Enabled rapid feature development",
-    ],
-    techStack: ["TypeScript", "Express", "MongoDB", "Redis"],
-  },
-];
-
 export default function CaseStudiesCard() {
+  const [caseStudies, setCaseStudies] = useState<CaseStudyRow[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [hasBeenInView, setHasBeenInView] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  useEffect(() => {
+    if (drawerOpen) {
+      document.body.style.overflow = "hidden";
+      const onKeyDown = (e: KeyboardEvent) => {
+        if (e.key === "Escape") setDrawerOpen(false);
+      };
+      const onResize = () => {
+        if (window.matchMedia("(min-width: 1024px)").matches) setDrawerOpen(false);
+      };
+      window.addEventListener("keydown", onKeyDown);
+      window.addEventListener("resize", onResize);
+      return () => {
+        document.body.style.overflow = "";
+        window.removeEventListener("keydown", onKeyDown);
+        window.removeEventListener("resize", onResize);
+      };
+    } else {
+      document.body.style.overflow = "";
+    }
+  }, [drawerOpen]);
+
+  useEffect(() => {
+    async function fetchCaseStudies() {
+      if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+        setError("Supabase not configured");
+        setLoading(false);
+        return;
+      }
+      try {
+        const supabase = createClient();
+        const { data, error: fetchError } = await supabase
+          .from("case_studies")
+          .select("*")
+          .order("sort_order", { ascending: true });
+
+        if (fetchError) throw fetchError;
+        setCaseStudies((data ?? []) as CaseStudyRow[]);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Failed to load case studies");
+        setCaseStudies([]);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchCaseStudies();
+  }, []);
+
+  const categories = useMemo(() => {
+    const set = new Set<string>();
+    caseStudies.forEach((s) => s.industries?.forEach((i) => set.add(i)));
+    return Array.from(set).sort();
+  }, [caseStudies]);
+
+  const filteredStudies = useMemo(() => {
+    if (!selectedCategory) return caseStudies;
+    return caseStudies.filter((s) => s.industries?.includes(selectedCategory));
+  }, [caseStudies, selectedCategory]);
+
+  if (loading) {
+    return (
+      <motion.article
+        className="w-full lg:w-[960px] xl:w-[1161px] max-w-full rounded-2xl sm:rounded-3xl border-4 sm:border-6 lg:border-8 border-white bg-white shadow-2xl text-slate-800 flex flex-col relative mx-auto"
+        variants={cardVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        <div className="pt-8 sm:pt-10 md:pt-12 lg:pt-20 px-4 sm:px-6 md:px-12 pb-12 sm:pb-16 md:pb-20 animate-pulse">
+          <div className="h-8 bg-slate-200 rounded w-1/3 mb-4" />
+          <div className="flex gap-8 mt-8">
+            <div className="flex-[7] space-y-6">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="aspect-[16/10] bg-slate-100 rounded-2xl" />
+              ))}
+            </div>
+            <div className="flex-[3] hidden lg:block">
+              <div className="h-6 bg-slate-200 rounded w-1/2 mb-4" />
+              <div className="space-y-2">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} className="h-10 bg-slate-100 rounded-lg" />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </motion.article>
+    );
+  }
+
   return (
     <motion.article
-      className="w-full lg:w-[960px] xl:w-[1161px] max-w-full rounded-3xl border-8 border-white bg-white shadow-2xl text-slate-800 flex flex-col relative mx-auto overflow-hidden"
+      className="w-full lg:w-[960px] xl:w-[1161px] max-w-full rounded-2xl sm:rounded-3xl border-4 sm:border-6 lg:border-8 border-white bg-white shadow-2xl text-slate-800 flex flex-col relative mx-auto"
       variants={cardVariants}
       initial="hidden"
-      whileInView="visible"
+      animate={hasBeenInView ? "visible" : "hidden"}
+      onViewportEnter={() => setHasBeenInView(true)}
       viewport={{ once: true, margin: "-100px" }}
     >
-      {/* Header Section */}
+      {/* Header Section - WhatIDoCard style */}
       <motion.div
-        className="pt-12 md:pt-20 px-6 md:px-12 text-center md:text-left relative z-10 bg-white"
+        className="pt-8 sm:pt-10 md:pt-12 lg:pt-20 px-4 sm:px-6 md:px-12 md:text-left text-center max-w-3xl md:max-w-none relative z-10 bg-white"
         variants={itemVariants}
       >
         <div className="flex items-center justify-center md:justify-start mb-4">
@@ -110,68 +155,162 @@ export default function CaseStudiesCard() {
         <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-800 mb-2.5 sm:mb-3">
           Case Studies
         </h2>
-        <p className="text-slate-600 text-xs sm:text-sm md:text-base leading-relaxed max-w-2xl mx-auto md:mx-0 mb-8 md:mb-12">
-          Real-world examples of how I've helped businesses overcome technical challenges and achieve their goals through robust software engineering.
+        <p className="text-slate-600 text-xs sm:text-sm md:text-base leading-relaxed max-w-2xl mx-auto md:mx-0">
+          Real-world examples of how I&apos;ve helped businesses overcome technical challenges and achieve their goals through robust software engineering.
         </p>
       </motion.div>
 
-      {/* Grid Section */}
-      <div className="px-6 md:px-12 pb-12 md:pb-20 relative bg-white z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-          {caseStudies.map((study, index) => (
-            <motion.div
-              key={study.id}
-              variants={itemVariants}
-              className="flex flex-col h-full bg-slate-50 rounded-2xl p-8 border border-slate-100 hover:border-sky-100 hover:shadow-lg transition-all duration-300 group relative overflow-hidden"
-            >
-              {/* Subtle gradient hover background */}
-              <div className="absolute inset-0 bg-gradient-to-br from-sky-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+      {/* Content - grid like CaseStudyDetail: 7:3 split, sticky on right column */}
+      <div className="px-4 sm:px-6 md:px-12 pt-4 sm:pt-6 md:pt-6 pb-12 sm:pb-16 md:pb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-[7fr_3fr] gap-8 sm:gap-10 lg:gap-12">
+          {/* Left column (7) - Case studies */}
+          <div className="min-w-0">
+            {/* Mobile only: Categories button */}
+            <div className="flex items-center justify-between mb-6 lg:hidden">
+              <span className="text-sm text-slate-500">
+                {filteredStudies.length} {filteredStudies.length === 1 ? "case study" : "case studies"}
+              </span>
+              <button
+                type="button"
+                onClick={() => setDrawerOpen(true)}
+                className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                  selectedCategory
+                    ? "bg-sky-100 text-sky-700"
+                    : "text-slate-600 hover:bg-slate-100 hover:text-slate-800"
+                }`}
+                aria-expanded={drawerOpen}
+                aria-haspopup="dialog"
+                aria-label="Filter by category"
+              >
+                <Filter className="h-4 w-4 shrink-0" />
+                {selectedCategory ?? "Categories"}
+              </button>
+            </div>
 
-              <div className="relative z-10 flex-1">
-                <div className="text-[10px] uppercase font-bold tracking-wider mb-2 text-sky-500">
-                  {study.clientType}
-                </div>
-                <h3 className="text-xl font-bold text-slate-800 mb-4 group-hover:text-sky-700 transition-colors">
-                  {study.title}
-                </h3>
-                <p className="text-slate-600 text-sm leading-relaxed mb-6">
-                  {study.description}
-                </p>
-
-                <div className="mb-8">
-                  <div className="text-[10px] uppercase font-bold tracking-wider mb-3 text-slate-400">
-                    Key Outcomes
-                  </div>
-                  <ul className="space-y-2">
-                    {study.results.map((result, i) => (
-                      <li key={i} className="flex items-start gap-2.5 text-sm text-slate-700">
-                        <svg className="w-4 h-4 text-sky-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                        </svg>
-                        <span className="leading-snug">{result}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+            {error && (
+              <div className="mb-6 p-4 rounded-lg bg-amber-50 border border-amber-200 text-amber-800 text-sm">
+                {error} — Add your Supabase credentials to .env.local and run the migration.
               </div>
-
-              {/* Technologies at the bottom */}
-              <div className="relative z-10 pt-6 border-t border-slate-200 mt-auto">
-                <div className="flex flex-wrap gap-2">
-                  {study.techStack.map((tech) => (
-                    <span
-                      key={tech}
-                      className="px-2.5 py-1 bg-white text-slate-600 text-xs font-medium rounded-md border border-slate-200 shadow-sm"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
+            )}
+            {filteredStudies.length === 0 && !error ? (
+              <div className="py-12 text-slate-500">
+                <p>No case studies yet. Add some in your Supabase database.</p>
               </div>
-            </motion.div>
-          ))}
+            ) : (
+              <div className="flex flex-col gap-6 sm:gap-8">
+                {filteredStudies.map((study) => (
+                  <CaseStudyPreviewCard key={study.id} study={study} variants={itemVariants} />
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Right column (3) - Categories (sticky, like CaseStudyDetail) */}
+          <aside className="hidden lg:block lg:pt-0 lg:sticky lg:top-36 lg:self-start">
+            <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-6">
+              Categories
+            </h3>
+            <nav className="flex flex-col gap-3">
+              <button
+                onClick={() => setSelectedCategory(null)}
+                className={`text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                  selectedCategory === null
+                    ? "bg-sky-100 text-sky-700"
+                    : "text-slate-600 hover:bg-slate-100 hover:text-slate-800"
+                }`}
+              >
+                All
+              </button>
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setSelectedCategory(cat)}
+                  className={`text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                    selectedCategory === cat
+                      ? "bg-sky-100 text-sky-700"
+                      : "text-slate-600 hover:bg-slate-100 hover:text-slate-800"
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </nav>
+          </aside>
         </div>
       </div>
+
+      {/* Categories drawer - mobile only */}
+      <AnimatePresence>
+        {drawerOpen && (
+          <>
+            <motion.div
+              role="presentation"
+              aria-hidden="true"
+              className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm lg:hidden"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setDrawerOpen(false)}
+            />
+            <motion.aside
+              role="dialog"
+              aria-modal="true"
+              aria-label="Filter by category"
+              className="fixed left-0 right-0 bottom-0 z-50 w-full max-h-[85vh] bg-white shadow-2xl border-t border-slate-200 rounded-t-2xl flex flex-col overflow-hidden lg:hidden pb-[env(safe-area-inset-bottom)]"
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+            >
+              <div className="flex items-center justify-between p-6 border-b border-slate-200">
+                <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider">
+                  Categories
+                </h3>
+                <button
+                  type="button"
+                  onClick={() => setDrawerOpen(false)}
+                  className="p-2 rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-700 transition-colors"
+                  aria-label="Close categories"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+              <nav className="flex flex-col gap-1 p-4 overflow-y-auto">
+                <button
+                  onClick={() => {
+                    setSelectedCategory(null);
+                    setDrawerOpen(false);
+                  }}
+                  className={`text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                    selectedCategory === null
+                      ? "bg-sky-100 text-sky-700"
+                      : "text-slate-600 hover:bg-slate-100 hover:text-slate-800"
+                  }`}
+                >
+                  All
+                </button>
+                {categories.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => {
+                      setSelectedCategory(cat);
+                      setDrawerOpen(false);
+                    }}
+                    className={`text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                      selectedCategory === cat
+                        ? "bg-sky-100 text-sky-700"
+                        : "text-slate-600 hover:bg-slate-100 hover:text-slate-800"
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </nav>
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
     </motion.article>
   );
 }

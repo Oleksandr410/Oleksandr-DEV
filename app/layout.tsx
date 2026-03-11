@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Header from "./components/Header";
+import Header from "./components/layout/Header";
 import ScrollToTop from "./components/cards/shared/ScrollToTop";
 import { Chatbot } from "./components/cards/shared/ChatBot";
 

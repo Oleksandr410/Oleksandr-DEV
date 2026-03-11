@@ -8,8 +8,8 @@ export const metadata = {
 
 export default function CaseStudiesPage() {
   return (
-    <main className="min-h-screen flex flex-col items-center p-4 py-8 gap-12 lg:gap-24">
-      <section className="scroll-mt-24 w-full flex flex-col items-center">
+    <main className="min-h-screen w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+      <section className="scroll-mt-24 w-full pb-24 sm:pb-28">
         <CaseStudiesCard />
       </section>
     </main>
