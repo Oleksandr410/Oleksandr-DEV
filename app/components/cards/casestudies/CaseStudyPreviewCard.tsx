@@ -83,7 +83,7 @@ export default function CaseStudyPreviewCard({
                   .map((_, i) => (
                     <p
                       key={i}
-                      className="whitespace-nowrap animate-marquee-text"
+                      className="text-sm whitespace-nowrap animate-marquee-text"
                     >
                       {stripMarkdown(study.project_overview!)}
                     </p>
