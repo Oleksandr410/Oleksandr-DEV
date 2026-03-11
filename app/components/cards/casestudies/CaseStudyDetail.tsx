@@ -7,8 +7,8 @@ import { motion } from "framer-motion";
 import { ExternalLink, Github } from "lucide-react";
 import { KeenSlider } from "@/app/components/ui/KeenSlider";
 import { ImageModal } from "@/app/components/ui/ImageModal";
-import { createClient } from "@/lib/supabase/client";
-import type { CaseStudyRow, ScreenshotItem, VideoItem } from "@/lib/supabase/types";
+import { createClient } from "@/libs/supabase/client";
+import type { CaseStudyRow, ScreenshotItem, VideoItem } from "@/libs/supabase/types";
 import { MarkdownBlock } from "@/app/components/ui/MarkdownBlock";
 
 function VideoDisplay({ video }: { video: VideoItem }) {
