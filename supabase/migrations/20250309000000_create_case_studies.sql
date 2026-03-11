@@ -29,8 +29,6 @@ create table if not exists public.case_studies (
   -- Media (separate for flexibility)
   -- screenshots: [{"url": "...", "alt": "..."}]
   screenshots jsonb default '[]',
-  -- videos: [{"url": "...", "caption": "..."}]
-  videos jsonb default '[]',
 
   -- Display order
   sort_order int default 0
