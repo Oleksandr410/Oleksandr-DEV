@@ -12,7 +12,6 @@ insert into public.case_studies (
   live_link,
   github_repo_link,
   screenshots,
-  videos,
   sort_order,
   client_info,
   timeline
@@ -27,7 +26,6 @@ insert into public.case_studies (
   'Reduced operational overhead by 40%, improved reporting accuracy, and enabled staff to focus on mission-critical work.',
   null,
   null,
-  '[]'::jsonb,
   '[]'::jsonb,
   0,
   'Canadian non-profit of 30 employees',
@@ -44,7 +42,6 @@ insert into public.case_studies (
   null,
   null,
   '[]'::jsonb,
-  '[]'::jsonb,
   1,
   'E-commerce brand',
   null
@@ -59,7 +56,6 @@ insert into public.case_studies (
   'Reduced report generation from hours to seconds, handled 10k+ concurrent connections.',
   null,
   null,
-  '[]'::jsonb,
   '[]'::jsonb,
   2,
   'Fintech startup',
