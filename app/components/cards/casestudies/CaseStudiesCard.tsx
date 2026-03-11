@@ -3,8 +3,8 @@
 import { useEffect, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Filter, X } from "lucide-react";
-import { createClient } from "@/lib/supabase/client";
-import type { CaseStudyRow } from "@/lib/supabase/types";
+import { createClient } from "@/libs/supabase/client";
+import type { CaseStudyRow } from "@/libs/supabase/types";
 import CaseStudyPreviewCard from "./CaseStudyPreviewCard";
 
 const cardVariants = {
@@ -173,11 +173,10 @@ export default function CaseStudiesCard() {
               <button
                 type="button"
                 onClick={() => setDrawerOpen(true)}
-                className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                  selectedCategory
+                className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${selectedCategory
                     ? "bg-sky-100 text-sky-700"
                     : "text-slate-600 hover:bg-slate-100 hover:text-slate-800"
-                }`}
+                  }`}
                 aria-expanded={drawerOpen}
                 aria-haspopup="dialog"
                 aria-label="Filter by category"
@@ -213,11 +212,10 @@ export default function CaseStudiesCard() {
             <nav className="flex flex-col gap-3">
               <button
                 onClick={() => setSelectedCategory(null)}
-                className={`text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                  selectedCategory === null
+                className={`text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${selectedCategory === null
                     ? "bg-sky-100 text-sky-700"
                     : "text-slate-600 hover:bg-slate-100 hover:text-slate-800"
-                }`}
+                  }`}
               >
                 All
               </button>
@@ -225,11 +223,10 @@ export default function CaseStudiesCard() {
                 <button
                   key={cat}
                   onClick={() => setSelectedCategory(cat)}
-                  className={`text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                    selectedCategory === cat
+                  className={`text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${selectedCategory === cat
                       ? "bg-sky-100 text-sky-700"
                       : "text-slate-600 hover:bg-slate-100 hover:text-slate-800"
-                  }`}
+                    }`}
                 >
                   {cat}
                 </button>
@@ -282,11 +279,10 @@ export default function CaseStudiesCard() {
                     setSelectedCategory(null);
                     setDrawerOpen(false);
                   }}
-                  className={`text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-                    selectedCategory === null
+                  className={`text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors ${selectedCategory === null
                       ? "bg-sky-100 text-sky-700"
                       : "text-slate-600 hover:bg-slate-100 hover:text-slate-800"
-                  }`}
+                    }`}
                 >
                   All
                 </button>
@@ -297,11 +293,10 @@ export default function CaseStudiesCard() {
                       setSelectedCategory(cat);
                       setDrawerOpen(false);
                     }}
-                    className={`text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-                      selectedCategory === cat
+                    className={`text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors ${selectedCategory === cat
                         ? "bg-sky-100 text-sky-700"
                         : "text-slate-600 hover:bg-slate-100 hover:text-slate-800"
-                    }`}
+                      }`}
                   >
                     {cat}
                   </button>
