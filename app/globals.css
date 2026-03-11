@@ -136,3 +136,51 @@ body {
   transform-origin: 501.006px 269.001px;
   animation: diagram-scale 2.5s ease-in-out infinite;
 }
+
+/* Marquee - conveyor belt for items */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+  }
+}
+
+@keyframes marquee-vertical {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(calc(-100% - var(--gap)));
+  }
+}
+
+.animate-marquee {
+  animation: marquee var(--duration) linear infinite;
+}
+
+.animate-marquee-vertical {
+  animation: marquee-vertical var(--duration) linear infinite;
+}
+
+/* Marquee text - horizontal scrolling for excerpt/description */
+@keyframes marquee-text {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(calc(-100% - 2rem));
+  }
+}
+
+.animate-marquee-text {
+  animation: marquee-text 200s linear infinite;
+}
+
+.group\/excerpt:hover .animate-marquee-text {
+  animation-play-state: paused;
+}
