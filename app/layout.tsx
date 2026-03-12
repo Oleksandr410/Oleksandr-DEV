@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "./components/layout/Header";
 import ScrollToTop from "./components/cards/shared/ScrollToTop";
-import { Chatbot } from "./components/cards/shared/ChatBot";
+// import { Chatbot } from "./components/cards/shared/ChatBot";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -26,7 +26,7 @@ export default function RootLayout({
       <body className="antialiased">
         <Header />
         {children}
-        <Chatbot />
+        {/* <Chatbot /> */}
         <ScrollToTop />
       </body>
     </html>
