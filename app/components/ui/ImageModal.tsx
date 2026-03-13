@@ -306,24 +306,6 @@ export function ImageModal({ screenshots, initialIndex, onClose }: ImageModalPro
             </div>
           )}
         </div>
-
-        {/* Dots */}
-        {hasMultiple && (
-          <div className="mt-4 flex shrink-0 items-center justify-center gap-2">
-            {screenshots.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => {
-                  setCurrentIndex(idx);
-                  resetTransform();
-                }}
-                className={`h-2 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white/50 ${currentIndex === idx ? "w-8 bg-sky-500" : "w-2 bg-slate-400 hover:bg-slate-300"
-                  }`}
-                aria-label={`Go to image ${idx + 1}`}
-              />
-            ))}
-          </div>
-        )}
       </div>
     </div>
   );
