@@ -1,11 +1,14 @@
 "use client";
 
 import { useEffect, useState, useMemo } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Filter, X } from "lucide-react";
 import { createClient } from "@/libs/supabase/client";
 import type { CaseStudyRow } from "@/libs/supabase/types";
 import CaseStudyPreviewCard from "./CaseStudyPreviewCard";
+
+const CATEGORY_PARAM = "category";
 
 const cardVariants = {
   hidden: { opacity: 0, scale: 0.96, y: 24 },
@@ -30,6 +33,8 @@ const itemVariants = {
 };
 
 export default function CaseStudiesCard() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const [caseStudies, setCaseStudies] = useState<CaseStudyRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -89,6 +94,33 @@ export default function CaseStudiesCard() {
     caseStudies.forEach((s) => s.industries?.forEach((i) => set.add(i)));
     return Array.from(set).sort();
   }, [caseStudies]);
+
+  // Sync URL -> selectedCategory on load (and when categories become available)
+  useEffect(() => {
+    const categoryFromUrl = searchParams.get(CATEGORY_PARAM);
+    if (!categoryFromUrl) {
+      setSelectedCategory(null);
+      return;
+    }
+    const decoded = decodeURIComponent(categoryFromUrl);
+    // Apply if valid, or if categories not yet loaded (avoid flash of "All")
+    if (categories.length === 0 || categories.includes(decoded)) {
+      setSelectedCategory(decoded);
+    } else {
+      setSelectedCategory(null);
+    }
+  }, [searchParams, categories]);
+
+  const updateCategory = (category: string | null) => {
+    setSelectedCategory(category);
+    const url = new URL(window.location.href);
+    if (category) {
+      url.searchParams.set(CATEGORY_PARAM, encodeURIComponent(category));
+    } else {
+      url.searchParams.delete(CATEGORY_PARAM);
+    }
+    router.replace(url.pathname + url.search, { scroll: false });
+  };
 
   const filteredStudies = useMemo(() => {
     if (!selectedCategory) return caseStudies;
@@ -211,7 +243,7 @@ export default function CaseStudiesCard() {
             </h3>
             <nav className="flex flex-col gap-3">
               <button
-                onClick={() => setSelectedCategory(null)}
+                onClick={() => updateCategory(null)}
                 className={`text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${selectedCategory === null
                     ? "bg-sky-100 text-sky-700"
                     : "text-slate-600 hover:bg-slate-100 hover:text-slate-800"
@@ -222,7 +254,7 @@ export default function CaseStudiesCard() {
               {categories.map((cat) => (
                 <button
                   key={cat}
-                  onClick={() => setSelectedCategory(cat)}
+                  onClick={() => updateCategory(cat)}
                   className={`text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${selectedCategory === cat
                       ? "bg-sky-100 text-sky-700"
                       : "text-slate-600 hover:bg-slate-100 hover:text-slate-800"
@@ -276,7 +308,7 @@ export default function CaseStudiesCard() {
               <nav className="flex flex-col gap-1 p-4 overflow-y-auto">
                 <button
                   onClick={() => {
-                    setSelectedCategory(null);
+                    updateCategory(null);
                     setDrawerOpen(false);
                   }}
                   className={`text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors ${selectedCategory === null
@@ -290,7 +322,7 @@ export default function CaseStudiesCard() {
                   <button
                     key={cat}
                     onClick={() => {
-                      setSelectedCategory(cat);
+                      updateCategory(cat);
                       setDrawerOpen(false);
                     }}
                     className={`text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors ${selectedCategory === cat
