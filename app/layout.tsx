@@ -3,6 +3,13 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "./components/layout/Header";
 import ScrollToTop from "./components/cards/shared/ScrollToTop";
+import {
+  SITE_URL,
+  SITE_NAME,
+  SITE_DESCRIPTION,
+  GITHUB_URL,
+  STACK_OVERFLOW_URL,
+} from "../libs/seo";
 // import { Chatbot } from "./components/cards/shared/ChatBot";
 
 const inter = Inter({
@@ -11,9 +18,51 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Randy | Senior Full Stack & CMS Developer",
-  description:
-    "Full-stack and CMS developer with 10+ years of experience building and maintaining scalable web applications.",
+  title: {
+    default: SITE_NAME,
+    template: "%s | Randy Listrud",
+  },
+  description: SITE_DESCRIPTION,
+  keywords: [
+    "Randy Listrud",
+    "Randy",
+    "Listrud",
+    "senior developer",
+    "senior full stack developer",
+    "full stack engineer",
+    "CMS developer",
+    "WordPress developer",
+    "Drupal developer",
+    "headless CMS",
+    "Next.js developer",
+    "React developer",
+    "TypeScript developer",
+    "web application development",
+    "web performance optimization",
+    "Core Web Vitals",
+    "cloud infrastructure",
+    "deployment pipelines",
+  ],
+  metadataBase: new URL(SITE_URL),
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    type: "website",
+    locale: "en_US",
+  },
+  authors: [{ name: "Randy Listrud" }],
+  icons: {
+    icon: "/logo.png",
+  },
+  other: {
+    github: GITHUB_URL,
+    stackoverflow: STACK_OVERFLOW_URL,
+  },
 };
 
 export default function RootLayout({
@@ -22,7 +71,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth" className={inter.variable}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      data-scroll-behavior="smooth"
+      className={inter.variable}
+    >
       <body className="antialiased">
         <Header />
         {children}

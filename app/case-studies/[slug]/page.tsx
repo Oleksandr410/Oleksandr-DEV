@@ -17,7 +17,7 @@ export default async function CaseStudyPage({ params }: Props) {
 
 export function generateMetadata({ params }: Props) {
   return {
-    title: "Case Study | Randy",
+    title: "Case Study Details",
     description: "Case study details",
   };
 }

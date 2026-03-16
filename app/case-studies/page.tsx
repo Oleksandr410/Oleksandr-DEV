@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import CaseStudiesCard from "../components/cards/casestudies/CaseStudiesCard";
 
 export const metadata = {
-  title: "Case Studies | Randy",
+  title: "Case Studies",
   description:
     "Real-world examples of how I've helped businesses overcome technical challenges and achieve their goals through robust software engineering.",
 };
