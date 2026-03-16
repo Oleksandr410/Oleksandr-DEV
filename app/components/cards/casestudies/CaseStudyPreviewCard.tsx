@@ -49,7 +49,7 @@ export default function CaseStudyPreviewCard({
               src={coverUrl}
               alt=""
               fill
-              className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+              className="object-cover case-image-scroll transition-transform duration-300 group-hover:scale-[1.02]"
               sizes="(max-width: 640px) 100vw, 14rem"
             />
           ) : (

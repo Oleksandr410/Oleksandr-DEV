@@ -166,6 +166,20 @@ body {
   animation: marquee-vertical var(--duration) linear infinite;
 }
 
+.case-image-scroll {
+  object-position: top;
+  /* Smoothly move between top and bottom instead of snapping */
+  transition: object-position 4s cubic-bezier(0.3, 0.7, 0.5, 0.9);
+  /* Small perf hint for browsers when animating position inside the image */
+  will-change: object-position;
+}
+
+.group:hover .case-image-scroll {
+  /* On hover, scroll down to show the bottom; when hover ends,
+     it smoothly returns to the top using the same timing curve */
+  object-position: bottom;
+}
+
 /* Marquee text - horizontal scrolling for excerpt/description */
 @keyframes marquee-text {
   from {
