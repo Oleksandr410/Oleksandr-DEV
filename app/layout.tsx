@@ -44,9 +44,6 @@ export const metadata: Metadata = {
     "deployment pipelines",
   ],
   metadataBase: new URL(SITE_URL),
-  alternates: {
-    canonical: "/",
-  },
   openGraph: {
     title: SITE_NAME,
     description: SITE_DESCRIPTION,
