@@ -1,4 +1,4 @@
-export const SITE_URL = "https://randywow.com";
+export const SITE_URL = "https://www.randywow.com";
 
 export const SITE_NAME = "Randy Listrud | Senior Full Stack & CMS Developer";
 
