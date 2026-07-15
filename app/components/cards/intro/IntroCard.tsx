@@ -37,37 +37,39 @@ const photoVariants = {
 
 const SKILLS = {
   experience: {
-    title: "Experience",
+    title: "QA & Experience",
     items: [
-      "10+ years of experience",
-      "20+ production apps shipped",
-      "Fintech, e‑commerce, SaaS, healthcare",
+      "Test automation in CI",
+      "10+ years shipping to production",
+      "20+ apps delivered",
+      "Fintech, SaaS, healthcare, B2B",
     ],
   },
   fullStack: {
     title: "Full-Stack",
     items: [
-      "End-to-end web apps",
-      "Custom frontends & backends",
-      "REST / GraphQL APIs",
-      "Scalable data models",
+      "React, Next.js, Node.js",
+      "Frontend through backend",
+      "REST & GraphQL APIs",
+      "Database design",
     ],
   },
-  cms: {
-    title: "CMS",
+  b2bSaas: {
+    title: "B2B & SaaS",
     items: [
-      "Custom CMS themes",
-      "Reusable content components",
-      "Headless CMS setups",
-      "SEO & performance tuning",
+      "SaaS MVPs and platforms",
+      "CRM, ERP, admin tools",
+      "Multi-tenant setups",
+      "Billing & subscriptions",
     ],
   },
-  devops: {
-    title: "DevOps",
+  aiAutomation: {
+    title: "AI & Automation",
     items: [
-      "Cloud environments (AWS / GCP / Azure)",
-      "CI/CD pipelines",
-      "Monitoring & alerting",
+      "LLMs and agents in production",
+      "Workflow automation",
+      "OpenCV for vision tasks",
+      "Third-party integrations",
     ],
   },
 } as const;
@@ -77,7 +79,7 @@ export default function IntroCard() {
     <BaseSplitCard
       left={
         <motion.div
-          className="flex-1 py-12 px-4 md:px-6 lg:px-0 lg:pl-12 z-50"
+          className="flex-1 py-12 px-4 md:px-6 lg:px-0 lg:pl-12"
           variants={containerVariants}
         >
           <div className="flex flex-col justify-around h-full">
@@ -97,22 +99,29 @@ export default function IntroCard() {
                   />
                 </span>
                 <span className="intro-card-label text-xs sm:text-sm font-medium text-sky-600">
-                  Randy - r@andi
+                  Oleksandr - (:Oleks:)
                 </span>
               </motion.div>
 
               <motion.h1
-                className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-800 mb-2.5 sm:mb-3"
+                className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-800 mb-2 sm:mb-2.5"
                 variants={itemVariants}
               >
-                Senior Full Stack & CMS Developer
+                Senior Full-Stack & AI Engineer
               </motion.h1>
+              <motion.p
+                className="text-sky-600 text-xs sm:text-sm font-medium mb-2.5 sm:mb-3"
+                variants={itemVariants}
+              >
+                Automation & SaaS · B2B Systems · QA
+              </motion.p>
               <motion.p
                 className="text-slate-600 text-xs sm:text-sm md:text-base mb-5 max-w-2xl"
                 variants={itemVariants}
               >
-                Full-stack and CMS developer with 10+ years of experience building and maintaining
-                scalable web applications from architecture to deployment.
+                10+ years building B2B apps, SaaS products, and the automation around them. I handle
+                the full stack, wire up AI where it actually helps, and keep QA honest so things
+                don&apos;t break in production.
               </motion.p>
             </div>
 
@@ -121,7 +130,7 @@ export default function IntroCard() {
               className="flex flex-col gap-6 md:flex-row md:gap-2 md:items-stretch md:justify-between text-black"
               variants={containerVariants}
             >
-              {/* Left column: Full-Stack / DevOps */}
+              {/* Left column: Full-Stack / AI & Automation */}
               <motion.div
                 className="flex flex-col justify-between gap-6 md:text-right lg:gap-10 max-w-xs w-full"
                 variants={itemVariants}
@@ -133,8 +142,8 @@ export default function IntroCard() {
                 />
                 <SkillBlock
                   direct="left"
-                  title={SKILLS.devops.title}
-                  items={SKILLS.devops.items}
+                  title={SKILLS.aiAutomation.title}
+                  items={SKILLS.aiAutomation.items}
                 />
               </motion.div>
 
@@ -146,15 +155,15 @@ export default function IntroCard() {
                 <CardSkillsDiagram />
               </motion.div>
 
-              {/* Right column: CMS / Experience */}
+              {/* Right column: B2B & SaaS / QA & Experience */}
               <motion.div
                 className="flex flex-col justify-between gap-6 lg:gap-10 max-w-xs w-full"
                 variants={itemVariants}
               >
                 <SkillBlock
                   direct="right"
-                  title={SKILLS.cms.title}
-                  items={SKILLS.cms.items}
+                  title={SKILLS.b2bSaas.title}
+                  items={SKILLS.b2bSaas.items}
                 />
                 <SkillBlock
                   direct="right"
@@ -168,15 +177,15 @@ export default function IntroCard() {
       }
       right={
         <motion.div
-          className="intro-card-photo relative hidden lg:block w-full h-64 sm:h-80 lg:w-80 lg:min-w-[20rem] lg:h-auto lg:min-h-[480px] bg-slate-200 shrink-0"
+          className="intro-card-photo relative hidden lg:block lg:w-80 lg:min-w-[20rem] lg:self-stretch shrink-0 overflow-hidden bg-slate-200"
           variants={photoVariants}
         >
           <Image
             src="/me.png"
-            alt="Randy"
+            alt="Oleksandr(:Oleks:)"
             fill
-            className="object-cover object-top"
-            sizes="(max-width: 1023px) 100vw, 24rem"
+            className="object-cover object-top z-0"
+            sizes="320px"
             priority
             draggable={false}
           />

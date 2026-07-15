@@ -31,7 +31,7 @@ export function Chatbot({ className }: ChatbotProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
-      content: "Hello! I'm Randy. How can I help you today?",
+      content: "Hello! I'm Oleks. How can I help you today?",
       sender: "bot",
       timestamp: new Date(),
     },

@@ -86,7 +86,7 @@ body {
   position: absolute;
   top: 0;
   left: -5px;
-  width: clamp(50px, 60vw, 500px);
+  width: clamp(40px, 25%, 100px);
   height: 100%;
   z-index: 10;
   pointer-events: none;
@@ -167,17 +167,86 @@ body {
 }
 
 .case-image-scroll {
-  object-position: top;
-  /* Smoothly move between top and bottom instead of snapping */
-  transition: object-position 4s cubic-bezier(0.3, 0.7, 0.5, 0.9);
-  /* Small perf hint for browsers when animating position inside the image */
+  object-position: top center;
+  transition:
+    object-position 4s cubic-bezier(0.3, 0.7, 0.5, 0.9),
+    transform 300ms ease;
   will-change: object-position;
 }
 
 .group:hover .case-image-scroll {
-  /* On hover, scroll down to show the bottom; when hover ends,
-     it smoothly returns to the top using the same timing curve */
-  object-position: bottom;
+  object-position: bottom center;
+  transform: scale(1.02);
+}
+
+@media (hover: none) {
+  .group .case-image-scroll {
+    animation: case-image-pan-y 10s ease-in-out infinite alternate;
+  }
+
+  .group:active .case-image-scroll {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes case-image-pan-y {
+  from {
+    object-position: top center;
+  }
+
+  to {
+    object-position: bottom center;
+  }
+}
+
+/* Track scroll for multiple images */
+.case-track-scroll {
+  transition: transform var(--scroll-duration, 4s) cubic-bezier(0.3, 0.7, 0.5, 0.9);
+  will-change: transform;
+}
+
+.group:hover .case-track-scroll {
+  transform: translateY(calc(-100% + (100% / var(--num-imgs))));
+}
+
+@media (hover: none) {
+  .group .case-track-scroll {
+    animation: case-track-pan calc(var(--scroll-duration, 4s) * 2) ease-in-out infinite alternate;
+  }
+
+  .group:active .case-track-scroll {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes case-track-pan {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(calc(-100% + (100% / var(--num-imgs))));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case-image-scroll {
+    transition: none;
+    animation: none;
+  }
+
+  .group:hover .case-image-scroll {
+    transform: none;
+  }
+
+  .case-track-scroll {
+    transition: none;
+    animation: none;
+  }
+
+  .group:hover .case-track-scroll {
+    transform: none;
+  }
 }
 
 /* Marquee text - horizontal scrolling for excerpt/description */

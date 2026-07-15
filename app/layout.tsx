@@ -8,7 +8,7 @@ import {
   SITE_NAME,
   SITE_DESCRIPTION,
   GITHUB_URL,
-  STACK_OVERFLOW_URL,
+  // STACK_OVERFLOW_URL,
 } from "../libs/seo";
 // import { Chatbot } from "./components/cards/shared/ChatBot";
 
@@ -20,13 +20,13 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: {
     default: SITE_NAME,
-    template: "%s | Randy Listrud",
+    template: "%s | Oleksandr Lozitskyi",
   },
   description: SITE_DESCRIPTION,
   keywords: [
-    "Randy Listrud",
-    "Randy",
-    "Listrud",
+    "Oleksandr Lozitskyi",
+    "Oleksandr",
+    "Lozitskyi",
     "senior developer",
     "senior full stack developer",
     "full stack engineer",
@@ -52,13 +52,13 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
   },
-  authors: [{ name: "Randy Listrud" }],
+  authors: [{ name: "Oleksandr Lozitskyi" }],
   icons: {
     icon: "/logo.png",
   },
   other: {
     github: GITHUB_URL,
-    stackoverflow: STACK_OVERFLOW_URL,
+    // stackoverflow: STACK_OVERFLOW_URL,
   },
 };
 

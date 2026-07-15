@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Filter, X } from "lucide-react";
 import { createClient } from "@/libs/supabase/client";
+import { getCaseStudiesErrorHelp } from "@/libs/supabase/errors";
 import type { CaseStudyRow } from "@/libs/supabase/types";
 import CaseStudyPreviewCard from "./CaseStudyPreviewCard";
 
@@ -220,7 +221,8 @@ export default function CaseStudiesCard() {
 
             {error && (
               <div className="mb-6 p-4 rounded-lg bg-amber-50 border border-amber-200 text-amber-800 text-sm">
-                {error} — Add your Supabase credentials to .env.local and run the migration.
+                <p className="font-medium">{error}</p>
+                <p className="mt-1">{getCaseStudiesErrorHelp(error)}</p>
               </div>
             )}
             {filteredStudies.length === 0 && !error ? (

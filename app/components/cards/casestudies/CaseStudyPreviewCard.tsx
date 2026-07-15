@@ -1,5 +1,6 @@
 "use client";
 
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, type Variants } from "framer-motion";
@@ -26,6 +27,24 @@ function getDetailHref(study: CaseStudyRow): string {
   return `/case-studies/${study.id}`;
 }
 
+function getScrollAxis(
+  imageWidth: number,
+  imageHeight: number,
+  containerWidth: number,
+  containerHeight: number,
+): "y" | "none" {
+  const containerAspect = containerWidth / containerHeight;
+  const imageAspect = imageWidth / imageHeight;
+
+  // Only scroll vertically if the image is noticeably taller than the container
+  // e.g. a full page screenshot
+  if (imageAspect < containerAspect * 0.95) {
+    return "y";
+  }
+
+  return "none";
+}
+
 export default function CaseStudyPreviewCard({
   study,
   variants,
@@ -33,8 +52,48 @@ export default function CaseStudyPreviewCard({
   study: CaseStudyRow;
   variants?: Variants;
 }) {
-  const coverUrl = getCoverImageUrl(study.screenshots);
+  const screenshots = study.screenshots || [];
+  const hasMultiple = screenshots.length > 1;
   const hasOverview = !!study.project_overview?.trim();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [scrollAxis, setScrollAxis] = useState<"y" | "none">("none");
+
+  const updateScrollAxis = useCallback((imageWidth: number, imageHeight: number) => {
+    const container = containerRef.current;
+    if (!container || !imageWidth || !imageHeight) return;
+
+    setScrollAxis(
+      getScrollAxis(
+        imageWidth,
+        imageHeight,
+        container.offsetWidth,
+        container.offsetHeight,
+      ),
+    );
+  }, []);
+
+  const handleImageReady = useCallback(
+    (imageWidth: number, imageHeight: number) => {
+      updateScrollAxis(imageWidth, imageHeight);
+    },
+    [updateScrollAxis],
+  );
+
+  useEffect(() => {
+    setScrollAxis("none");
+
+    const container = containerRef.current;
+    if (!container) return;
+
+    const observer = new ResizeObserver(() => {
+      const img = container.querySelector("img");
+      if (img?.naturalWidth && img.naturalHeight) {
+        updateScrollAxis(img.naturalWidth, img.naturalHeight);
+      }
+    });
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, [screenshots, updateScrollAxis]);
 
   return (
     <motion.div variants={variants}>
@@ -43,15 +102,41 @@ export default function CaseStudyPreviewCard({
         className="group flex flex-col sm:flex-row rounded-lg border border-slate-200/80 bg-white overflow-hidden transition-all duration-200 hover:border-slate-300 hover:shadow-sm"
       >
         {/* Image - compact, left on desktop */}
-        <div className="relative w-full sm:w-56 sm:min-w-[14rem] aspect-[3/1] sm:aspect-square overflow-hidden bg-slate-100">
-          {coverUrl ? (
-            <Image
-              src={coverUrl}
-              alt=""
-              fill
-              className="object-cover case-image-scroll transition-transform duration-300 group-hover:scale-[1.02]"
-              sizes="(max-width: 640px) 100vw, 14rem"
-            />
+        <div
+          ref={containerRef}
+          className="relative w-full sm:w-56 sm:min-w-[14rem] aspect-[3/1] sm:aspect-square overflow-hidden bg-slate-100"
+        >
+          {screenshots.length > 0 ? (
+            <div
+              className={`absolute top-0 left-0 w-full flex flex-col ${hasMultiple ? "case-track-scroll" : ""}`}
+              style={
+                hasMultiple
+                  ? ({
+                      "--num-imgs": screenshots.length,
+                      "--scroll-duration": `${Math.max(4, screenshots.length * 1.5)}s`,
+                    } as React.CSSProperties)
+                  : undefined
+              }
+            >
+              {screenshots.map((s, idx) => (
+                <div key={idx} className="relative w-full aspect-[3/1] sm:aspect-square shrink-0 bg-slate-100 overflow-hidden">
+                  <Image
+                    src={s.url}
+                    alt={s.alt || ""}
+                    fill
+                    className={`object-cover ${!hasMultiple && scrollAxis === "y" ? "case-image-scroll" : "object-top"}`}
+                    sizes="(max-width: 640px) 100vw, 14rem"
+                    unoptimized={s.url.includes("supabase.co")}
+                    onLoad={(e) => {
+                      if (idx === 0) {
+                        const img = e.currentTarget;
+                        handleImageReady(img.naturalWidth, img.naturalHeight);
+                      }
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
           ) : (
             <div className="absolute inset-0 bg-slate-200" />
           )}

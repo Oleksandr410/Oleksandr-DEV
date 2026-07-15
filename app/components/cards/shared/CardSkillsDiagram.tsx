@@ -57,7 +57,7 @@ export default function CardSkillsDiagram() {
         strokeLinejoin="round"
       />
 
-      {/* Avatar on mobile/tablet; external image on desktop */}
+      {/* Avatar on mobile/tablet; stack icon on desktop */}
       <image
         className="lg:hidden"
         x="255.503"
@@ -74,9 +74,9 @@ export default function CardSkillsDiagram() {
         y="23.5004"
         width="491"
         height="491"
-        preserveAspectRatio="xMidYMid slice"
+        preserveAspectRatio="xMidYMid meet"
         clipPath="url(#clip-fWPXAJ73)"
-        xlinkHref="https://cdn.gamma.app/26yp6lq3u9kx4kv/9038d0a257714c5faf5eda0d86bbabc3/original/10329552.png"
+        xlinkHref="/full-stack.png"
       />
 
       <g className="hidden md:block">

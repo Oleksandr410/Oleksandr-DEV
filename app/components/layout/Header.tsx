@@ -106,7 +106,7 @@ export default function Header() {
           <Link
             href="/"
             className="flex items-center gap-2 sm:gap-3"
-            aria-label="Randy - Home"
+            aria-label="Oleksandr - Home"
           >
             <span
               className={cn(
@@ -132,13 +132,13 @@ export default function Header() {
                 &lt;
               </span>
               <span className={isScrolled ? "text-slate-800" : "text-slate-100"}>
-                Randy
+                Oleksandr
               </span>
               <span
                 className={cn("font-light", isScrolled ? "text-sky-600" : "text-sky-400")}
               >
                 {" "}
-                - r@andi
+                - Oleks
               </span>
               <span className={isScrolled ? "text-sky-600" : "text-sky-400"}>
                 /&gt;
@@ -149,7 +149,7 @@ export default function Header() {
                 &lt;
               </span>
               <span className={isScrolled ? "text-slate-800" : "text-slate-100"}>
-                Randy
+                Oleksandr
               </span>
               <span className={isScrolled ? "text-sky-600" : "text-sky-400"}>
                 /&gt;
