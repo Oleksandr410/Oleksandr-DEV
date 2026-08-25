@@ -4,7 +4,7 @@
 
 1. Go to [supabase.com/dashboard](https://supabase.com/dashboard)
 2. Create a new project
-3. Copy your **Project URL** and **anon/public key** from Settings → API
+3. Copy your **Project URL** and **publishable key** from Settings → API Keys
 
 ## 2. Configure environment
 
@@ -12,8 +12,10 @@ Copy `.env.example` to `.env.local` and add your credentials:
 
 ```
 NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-publishable-key
 ```
+
+Keep the **secret key** (`sb_secret_...`) in `SUPABASE_SECRET_KEY` only — never `NEXT_PUBLIC_`.
 
 ## 3. Run the migration
 

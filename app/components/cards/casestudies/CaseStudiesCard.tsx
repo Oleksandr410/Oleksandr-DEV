@@ -4,7 +4,7 @@ import { useEffect, useState, useMemo } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Filter, X } from "lucide-react";
-import { createClient } from "@/libs/supabase/client";
+import { createClient, isSupabaseConfigured } from "@/libs/supabase/client";
 import { getCaseStudiesErrorHelp } from "@/libs/supabase/errors";
 import type { CaseStudyRow } from "@/libs/supabase/types";
 import CaseStudyPreviewCard from "./CaseStudyPreviewCard";
@@ -66,7 +66,7 @@ export default function CaseStudiesCard() {
 
   useEffect(() => {
     async function fetchCaseStudies() {
-      if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+      if (!isSupabaseConfigured()) {
         setError("Supabase not configured");
         setLoading(false);
         return;

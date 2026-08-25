@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import { ExternalLink, Github } from "lucide-react";
 import { KeenSlider } from "@/app/components/ui/KeenSlider";
 import { ImageModal } from "@/app/components/ui/ImageModal";
-import { createClient } from "@/libs/supabase/client";
+import { createClient, isSupabaseConfigured } from "@/libs/supabase/client";
 import type { CaseStudyRow, ScreenshotItem, VideoItem } from "@/libs/supabase/types";
 import { MarkdownBlock } from "@/app/components/ui/MarkdownBlock";
 
@@ -32,7 +32,7 @@ export default function CaseStudyDetail({ slugOrId }: { slugOrId: string }) {
 
   useEffect(() => {
     async function fetchCaseStudy() {
-      if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+      if (!isSupabaseConfigured()) {
         setError("Supabase not configured");
         setLoading(false);
         return;

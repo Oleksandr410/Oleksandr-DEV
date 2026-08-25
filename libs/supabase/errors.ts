@@ -1,6 +1,6 @@
 export function getCaseStudiesErrorHelp(error: string): string {
   if (error === "Supabase not configured") {
-    return "Add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY to .env (or .env.local), then restart npm run dev.";
+    return "Add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY to .env (or .env.local), then restart npm run dev.";
   }
 
   if (

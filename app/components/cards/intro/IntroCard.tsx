@@ -85,7 +85,10 @@ export default function IntroCard() {
           <div className="flex flex-col justify-around h-full">
             <div>
               {/* Who I Am */}
-              <motion.div className="flex items-center mb-2.5 sm:mb-3" variants={itemVariants}>
+              <motion.div
+                className="flex items-center mb-2.5 sm:mb-3"
+                variants={itemVariants}
+              >
                 <span
                   className="flex h-10 w-10 items-center p-[10px] mr-2 justify-center rounded-full bg-sky-100"
                   aria-hidden
@@ -99,7 +102,7 @@ export default function IntroCard() {
                   />
                 </span>
                 <span className="intro-card-label text-xs sm:text-sm font-medium text-sky-600">
-                  Oleksandr - (:Oleks:)
+                  Gerrit - (:Kreeft:)
                 </span>
               </motion.div>
 
@@ -119,9 +122,10 @@ export default function IntroCard() {
                 className="text-slate-600 text-xs sm:text-sm md:text-base mb-5 max-w-2xl"
                 variants={itemVariants}
               >
-                10+ years building B2B apps, SaaS products, and the automation around them. I handle
-                the full stack, wire up AI where it actually helps, and keep QA honest so things
-                don&apos;t break in production.
+                10+ years building B2B apps, SaaS products, and the automation
+                around them. I handle the full stack, wire up AI where it
+                actually helps, and keep QA honest so things don&apos;t break in
+                production.
               </motion.p>
             </div>
 
@@ -182,7 +186,7 @@ export default function IntroCard() {
         >
           <Image
             src="/me.png"
-            alt="Oleksandr(:Oleks:)"
+            alt="Gerrit(:Kreeft:)"
             fill
             className="object-cover object-top z-0"
             sizes="320px"
@@ -202,11 +206,15 @@ export default function IntroCard() {
                 <ellipse cx="-1.03" cy="0.5" ry="1" rx="1.2" fill="white" />
               </mask>
             </defs>
-            <rect width="1" height="1" fill="white" mask="url(#intro-card-mask)" />
+            <rect
+              width="1"
+              height="1"
+              fill="white"
+              mask="url(#intro-card-mask)"
+            />
           </svg>
         </motion.div>
       }
     />
   );
 }
-
