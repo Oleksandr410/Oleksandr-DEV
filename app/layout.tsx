@@ -20,13 +20,13 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: {
     default: SITE_NAME,
-    template: "%s | Oleksandr Lozitskyi",
+    template: "%s | Gerrit Kreeft",
   },
   description: SITE_DESCRIPTION,
   keywords: [
-    "Oleksandr Lozitskyi",
-    "Oleksandr",
-    "Lozitskyi",
+    "Gerrit Kreeft",
+    "Gerrit",
+    "Kreeft",
     "senior developer",
     "senior full stack developer",
     "full stack engineer",
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
   },
-  authors: [{ name: "Oleksandr Lozitskyi" }],
+  authors: [{ name: "Gerrit Kreeft" }],
   icons: {
     icon: "/logo.png",
   },

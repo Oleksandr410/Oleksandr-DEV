@@ -1,9 +1,9 @@
 export const SITE_URL = "https://www.randywow.com";
 
-export const SITE_NAME = "Oleksandr Lozitskyi | Senior Full Stack & CMS Developer";
+export const SITE_NAME = "Gerrit Kreeft | Senior Full Stack & CMS Developer";
 
 export const SITE_DESCRIPTION =
-  "Oleksandr Lozitskyi is a senior full-stack and CMS developer with 10+ years of experience building scalable, maintainable web applications for businesses.";
+  "Gerrit Kreeft is a senior full-stack and CMS developer with 10+ years of experience building scalable, maintainable web applications for businesses.";
 
 // Update these to your real profiles
 export const GITHUB_URL = "https://github.com/Oleksandr410";
